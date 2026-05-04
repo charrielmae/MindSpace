@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       console.log("Sign up button clicked");
       // Navigate to registration page
-      window.location.href = "register.html";
+      window.location.href = "registration.html";
     });
   }
 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       console.log("Get Started button clicked");
       // Navigate to registration page
-      window.location.href = "register.html";
+      window.location.href = "registration.html";
     });
   }
 
