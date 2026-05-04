@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Wellness Activities</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/wellness-activities.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="logo">
+            <div class="logo-shape"></div>
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img
+                src="../images/user-avatar.png"
+                alt="User"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="page-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/dashboard.png"
+                        alt="Dashboard"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="mental-health-info.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/brain.png"
+                        alt="Mental Health"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="daily-mood.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/mood.png"
+                        alt="Daily Mood"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/doctor.png"
+                        alt="Recommendation"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/wellness.png"
+                        alt="Wellness Activities"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="crisis-hotline.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/call.png"
+                        alt="Crisis Hotline"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Page Header -->
+          <section class="page-hero">
+            <div class="hero-content">
+              <h1>Wellness Activities</h1>
+              <p>
+                Discover activities and practices that support your mental
+                health journey. From meditation to creative expression, find
+                what works best for you.
+              </p>
+            </div>
+            <div class="hero-illustration">
+              <div class="illustration-card">
+                <img
+                  src="../images/wellness-activities-illustration.png"
+                  alt="Wellness Activities"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Activity Categories -->
+          <section class="categories-section">
+            <h2>Activity Categories</h2>
+            <div class="categories-grid">
+              <div class="category-card" data-category="meditation">
+                <div class="category-icon">🧘‍♀️</div>
+                <h3>Meditation</h3>
+                <p>Mindfulness and breathing exercises</p>
+              </div>
+              <div class="category-card" data-category="physical">
+                <div class="category-icon">🏃‍♀️</div>
+                <h3>Physical</h3>
+                <p>Exercise and movement activities</p>
+              </div>
+              <div class="category-card" data-category="creative">
+                <div class="category-icon">🎨</div>
+                <h3>Creative</h3>
+                <p>Art and creative expression</p>
+              </div>
+              <div class="category-card" data-category="social">
+                <div class="category-icon">👥</div>
+                <h3>Social</h3>
+                <p>Connection and community activities</p>
+              </div>
+              <div class="category-card" data-category="educational">
+                <div class="category-icon">📚</div>
+                <h3>Educational</h3>
+                <p>Learning and growth activities</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Activities -->
+          <section class="featured-section">
+            <h2>Featured Activities</h2>
+            <div class="featured-grid">
+              <div class="activity-card featured">
+                <div class="activity-header">
+                  <div class="activity-icon">🧘‍♀️</div>
+                  <div class="activity-badge">Featured</div>
+                </div>
+                <div class="activity-content">
+                  <h3>5-Minute Mindfulness Meditation</h3>
+                  <p>
+                    Quick guided meditation to reduce stress and improve focus.
+                    Perfect for busy schedules.
+                  </p>
+                  <div class="activity-meta">
+                    <span class="duration">5 min</span>
+                    <span class="difficulty">Beginner</span>
+                    <span class="category">Meditation</span>
+                  </div>
+                  <button class="activity-btn">Start Activity</button>
+                </div>
+              </div>
+
+              <div class="activity-card featured">
+                <div class="activity-header">
+                  <div class="activity-icon">🏃‍♀️</div>
+                  <div class="activity-badge">Popular</div>
+                </div>
+                <div class="activity-content">
+                  <h3>Morning Yoga Flow</h3>
+                  <p>
+                    Gentle yoga sequence to energize your body and mind for the
+                    day ahead.
+                  </p>
+                  <div class="activity-meta">
+                    <span class="duration">15 min</span>
+                    <span class="difficulty">Beginner</span>
+                    <span class="category">Physical</span>
+                  </div>
+                  <button class="activity-btn">Start Activity</button>
+                </div>
+              </div>
+
+              <div class="activity-card featured">
+                <div class="activity-header">
+                  <div class="activity-icon">🎨</div>
+                  <div class="activity-badge">New</div>
+                </div>
+                <div class="activity-content">
+                  <h3>Expressive Art Journaling</h3>
+                  <p>
+                    Use art to express emotions and process thoughts. No
+                    artistic experience required.
+                  </p>
+                  <div class="activity-meta">
+                    <span class="duration">20 min</span>
+                    <span class="difficulty">All Levels</span>
+                    <span class="category">Creative</span>
+                  </div>
+                  <button class="activity-btn">Start Activity</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- All Activities -->
+          <section class="activities-section">
+            <h2>All Activities</h2>
+            <div class="activities-controls">
+              <div class="search-box">
+                <input
+                  type="text"
+                  id="searchInput"
+                  placeholder="Search activities..."
+                />
+                <button class="search-btn">🔍</button>
+              </div>
+              <div class="filter-controls">
+                <select id="durationFilter" class="filter-select">
+                  <option value="">All Durations</option>
+                  <option value="short">Under 10 min</option>
+                  <option value="medium">10-20 min</option>
+                  <option value="long">Over 20 min</option>
+                </select>
+                <select id="difficultyFilter" class="filter-select">
+                  <option value="">All Levels</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="activities-grid" id="activitiesGrid">
+              <!-- Activities will be populated here -->
+            </div>
+
+            <div class="activities-pagination" id="activitiesPagination">
+              <div class="pagination-info">
+                <span id="activitiesPaginationInfo"
+                  >Showing 1-4 of 0 activities</span
+                >
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" id="activitiesPrevBtn" disabled>
+                  Previous
+                </button>
+                <div class="page-numbers" id="activitiesPageNumbers"></div>
+                <button class="pagination-btn" id="activitiesNextBtn" disabled>
+                  Next
+                </button>
+              </div>
+            </div>
+          </section>
+
+       
+
+          <!-- Personalized Recommendations -->
+          <section class="recommendations-section">
+            <h2>Recommended for You</h2>
+            <div class="recommendations-grid">
+              <div class="recommendation-card">
+                <div class="recommendation-badge">Based on your mood</div>
+                <div class="recommendation-content">
+                  <h3>Stress Relief Breathing</h3>
+                  <p>
+                    Since you've been feeling stressed lately, try this calming
+                    breathing exercise.
+                  </p>
+                  <button class="recommendation-btn">Try Now</button>
+                </div>
+              </div>
+
+              <div class="recommendation-card">
+                <div class="recommendation-badge">Trending</div>
+                <div class="recommendation-content">
+                  <h3>Evening Wind Down Routine</h3>
+                  <p>
+                    Popular activity for better sleep and relaxation before bed.
+                  </p>
+                  <button class="recommendation-btn">Try Now</button>
+                </div>
+              </div>
+
+              <div class="recommendation-card">
+                <div class="recommendation-badge">New Challenge</div>
+                <div class="recommendation-content">
+                  <h3>7-Day Mindfulness Challenge</h3>
+                  <p>
+                    Join others in this week-long journey to build mindfulness
+                    habits.
+                  </p>
+                  <button class="recommendation-btn">Join Challenge</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/wellness-activities.js" defer></script>
+  </body>
+</html>

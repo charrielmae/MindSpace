@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Daily Mood</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/daily-mood.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="logo">
+            <div class="logo-shape"></div>
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img
+                src="../images/user-avatar.png"
+                alt="User"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="page-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/dashboard.png"
+                        alt="Dashboard"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="mental-health-info.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/brain.png"
+                        alt="Mental Health"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/mood.png"
+                        alt="Daily Mood"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/doctor.png"
+                        alt="Recommendation"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="wellness-activities.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/wellness.png"
+                        alt="Wellness Activities"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="crisis-hotline.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/call.png"
+                        alt="Crisis Hotline"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Page Header -->
+          <section class="page-hero">
+            <div class="hero-content">
+              <h1>Daily Mood Tracker</h1>
+              <p>
+                Track your emotional journey day by day. Understanding your mood
+                patterns helps you better manage your mental wellness.
+              </p>
+            </div>
+            <div class="hero-illustration"></div>
+          </section>
+
+          <!-- Today's Mood Entry -->
+          <section class="today-mood-section">
+            <h2>How are you feeling today?</h2>
+            <div class="mood-entry-card">
+              <div class="mood-date">
+                <span class="date-label">Today</span>
+                <span class="date-value" id="todayDate"></span>
+              </div>
+
+              <div class="mood-options">
+                <div class="mood-group">
+                  <button class="mood-btn" data-mood="excellent" data-value="5">
+                    <span class="mood-emoji">😄</span>
+                    <span class="mood-label">Excellent</span>
+                  </button>
+                  <button class="mood-btn" data-mood="good" data-value="4">
+                    <span class="mood-emoji">😊</span>
+                    <span class="mood-label">Good</span>
+                  </button>
+                  <button class="mood-btn" data-mood="okay" data-value="3">
+                    <span class="mood-emoji">😐</span>
+                    <span class="mood-label">Okay</span>
+                  </button>
+                  <button class="mood-btn" data-mood="bad" data-value="2">
+                    <span class="mood-emoji">😔</span>
+                    <span class="mood-label">Bad</span>
+                  </button>
+                  <button class="mood-btn" data-mood="terrible" data-value="1">
+                    <span class="mood-emoji">😢</span>
+                    <span class="mood-label">Terrible</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="mood-details">
+                <div class="detail-group">
+                  <label for="moodNotes">What's on your mind?</label>
+                  <textarea
+                    id="moodNotes"
+                    placeholder="Share your thoughts, feelings, or what happened today..."
+                    rows="4"
+                  ></textarea>
+                </div>
+
+                <div class="detail-group">
+                  <label>What influenced your mood?</label>
+                  <div class="influence-tags">
+                    <button class="influence-tag" data-influence="work">
+                      Work
+                    </button>
+                    <button class="influence-tag" data-influence="family">
+                      Family
+                    </button>
+                    <button class="influence-tag" data-influence="friends">
+                      Friends
+                    </button>
+                    <button class="influence-tag" data-influence="health">
+                      Health
+                    </button>
+                    <button class="influence-tag" data-influence="sleep">
+                      Sleep
+                    </button>
+                    <button class="influence-tag" data-influence="exercise">
+                      Exercise
+                    </button>
+                    <button class="influence-tag" data-influence="weather">
+                      Weather
+                    </button>
+                    <button class="influence-tag" data-influence="stress">
+                      Stress
+                    </button>
+                    <button class="influence-tag" data-influence="other">
+                      Other
+                    </button>
+                  </div>
+                </div>
+
+                <div class="detail-group">
+                  <label>Activities today</label>
+                  <div class="activity-tags">
+                    <button class="activity-tag" data-activity="meditation">
+                      Meditation
+                    </button>
+                    <button class="activity-tag" data-activity="exercise">
+                      Exercise
+                    </button>
+                    <button class="activity-tag" data-activity="social">
+                      Social Time
+                    </button>
+                    <button class="activity-tag" data-activity="work">
+                      Work
+                    </button>
+                    <button class="activity-tag" data-activity="hobby">
+                      Hobby
+                    </button>
+                    <button class="activity-tag" data-activity="rest">
+                      Rest
+                    </button>
+                    <button class="activity-tag" data-activity="nature">
+                      Nature
+                    </button>
+                    <button class="activity-tag" data-activity="creative">
+                      Creative
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mood-actions">
+                <button class="save-btn" id="saveMoodBtn">
+                  Save Today's Mood
+                </button>
+                <button class="skip-btn" id="skipMoodBtn">Skip Today</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Past Mood Log -->
+          <section class="past-mood-section">
+            <h2>Past Mood Log</h2>
+            <div class="mood-log-controls">
+              <div class="filter-controls">
+                <select id="logMonthFilter" class="filter-select">
+                  <option value="">All Months</option>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+                <select id="logYearFilter" class="filter-select">
+                  <option value="">All Years</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                </select>
+              </div>
+              <button class="export-btn" id="exportLogBtn">Export Log</button>
+            </div>
+
+            <div class="mood-log-list" id="moodLogList">
+              <!-- Past mood entries will be populated here -->
+            </div>
+
+            <div class="mood-log-pagination" id="moodLogPagination">
+              <div class="pagination-info">
+                <span id="paginationInfo">Showing 1-2 of 0 entries</span>
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" id="prevPageBtn" disabled>
+                  Previous
+                </button>
+                <div class="page-numbers" id="pageNumbers"></div>
+                <button class="pagination-btn" id="nextPageBtn" disabled>
+                  Next
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Insights -->
+          <section class="insights-section">
+            <h2>Mood Insights</h2>
+            <div class="insights-grid">
+              <div class="insight-card">
+                <div class="insight-icon">🌅</div>
+                <div class="insight-content">
+                  <h3>Morning Person</h3>
+                  <p>
+                    Your mood is typically 23% better in the morning. Consider
+                    scheduling important activities earlier in the day.
+                  </p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <div class="insight-icon">🏃‍♀️</div>
+                <div class="insight-content">
+                  <h3>Exercise Boost</h3>
+                  <p>
+                    Days you exercise show a 35% improvement in mood scores.
+                    Keep up the physical activity!
+                  </p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <div class="insight-icon">😴</div>
+                <div class="insight-content">
+                  <h3>Sleep Connection</h3>
+                  <p>
+                    Poor sleep correlates with lower mood ratings. Aim for 7-9
+                    hours of quality sleep.
+                  </p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <div class="insight-icon">👥</div>
+                <div class="insight-content">
+                  <h3>Social Impact</h3>
+                  <p>
+                    Social interactions improve your mood by 28%. Make time for
+                    friends and family.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/daily-mood.js" defer></script>
+  </body>
+</html>

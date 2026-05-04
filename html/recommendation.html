@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Recommendations</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/recommendation.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="logo">
+            <div class="logo-shape"></div>
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img
+                src="../images/user-avatar.png"
+                alt="User"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="page-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/dashboard.png"
+                        alt="Dashboard"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="mental-health-info.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/brain.png"
+                        alt="Mental Health"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="daily-mood.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/mood.png"
+                        alt="Daily Mood"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/doctor.png"
+                        alt="Recommendation"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="wellness-activities.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/wellness.png"
+                        alt="Wellness Activities"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="crisis-hotline.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/call.png"
+                        alt="Crisis Hotline"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Page Header -->
+          <section class="page-hero">
+            <div class="hero-content">
+              <h1>Personalized Recommendations</h1>
+              <p>
+                Find the right mental health support for your needs. Get matched
+                with qualified therapists and discover treatment options
+                tailored to you.
+              </p>
+            </div>
+            <div class="hero-illustration">
+              <div class="illustration-card">
+                <img
+                  src="../images/recommendation-illustration.png"
+                  alt="Therapy Support"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Quick Assessment -->
+          <section class="assessment-section">
+            <h2>Quick Assessment</h2>
+            <div class="assessment-card">
+              <div class="assessment-progress">
+                <div class="progress-bar">
+                  <div
+                    class="progress-fill"
+                    id="progressFill"
+                    style="width: 0%"
+                  ></div>
+                </div>
+                <span class="progress-text"
+                  >Question <span id="currentQuestion">1</span> of
+                  <span id="totalQuestions">5</span></span
+                >
+              </div>
+
+              <div class="assessment-content" id="assessmentContent">
+                <div class="question-container" id="questionContainer">
+                  <!-- Questions will be populated here -->
+                </div>
+
+                <div class="assessment-actions">
+                  <button class="prev-btn" id="prevBtn" disabled>
+                    Previous
+                  </button>
+                  <button class="next-btn" id="nextBtn">Next</button>
+                  <button
+                    class="submit-btn"
+                    id="submitBtn"
+                    style="display: none"
+                  >
+                    Get Recommendations
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Therapy Recommendations -->
+          <section class="therapy-section">
+            <h2>Recommended Therapists</h2>
+            <div class="therapy-filters">
+              <div class="filter-group">
+                <label for="specialtyFilter">Specialty</label>
+                <select id="specialtyFilter" class="filter-select">
+                  <option value="">All Specialties</option>
+                  <option value="anxiety">Anxiety Disorders</option>
+                  <option value="depression">Depression</option>
+                  <option value="trauma">Trauma & PTSD</option>
+                  <option value="relationships">Relationships</option>
+                  <option value="addiction">Addiction</option>
+                  <option value="stress">Stress Management</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label for="typeFilter">Therapy Type</label>
+                <select id="typeFilter" class="filter-select">
+                  <option value="">All Types</option>
+                  <option value="cbt">Cognitive Behavioral Therapy</option>
+                  <option value="dbt">Dialectical Behavior Therapy</option>
+                  <option value="psychodynamic">Psychodynamic Therapy</option>
+                  <option value="humanistic">Humanistic Therapy</option>
+                  <option value="family">Family Therapy</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label for="priceFilter">Price Range</label>
+                <select id="priceFilter" class="filter-select">
+                  <option value="">All Prices</option>
+                  <option value="0-50">$0 - $50</option>
+                  <option value="50-100">$50 - $100</option>
+                  <option value="100-150">$100 - $150</option>
+                  <option value="150+">$150+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="therapy-grid" id="therapyGrid">
+              <!-- Therapist cards will be populated here -->
+            </div>
+
+            <div class="therapy-pagination" id="therapyPagination">
+              <div class="pagination-info">
+                <span id="therapyPaginationInfo"
+                  >Showing 1-3 of 0 therapists</span
+                >
+              </div>
+              <div class="pagination-controls">
+                <button class="pagination-btn" id="therapyPrevBtn" disabled>
+                  Previous
+                </button>
+                <div class="page-numbers" id="therapyPageNumbers"></div>
+                <button class="pagination-btn" id="therapyNextBtn" disabled>
+                  Next
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Treatment Options -->
+          <section class="treatment-section">
+            <h2>Treatment Options</h2>
+            <div class="treatment-grid">
+              <div class="treatment-card">
+                <div class="treatment-icon">💊</div>
+                <div class="treatment-content">
+                  <h3>Medication Management</h3>
+                  <p>
+                    Psychiatric evaluation and medication management for mental
+                    health conditions. Work with qualified psychiatrists to find
+                    the right treatment plan.
+                  </p>
+                  <div class="treatment-features">
+                    <span class="feature">✓ Initial Evaluation</span>
+                    <span class="feature">✓ Ongoing Monitoring</span>
+                    <span class="feature">✓ Medication Adjustment</span>
+                  </div>
+                  <button class="treatment-btn">Find Psychiatrist</button>
+                </div>
+              </div>
+
+              <div class="treatment-card">
+                <div class="treatment-icon">👥</div>
+                <div class="treatment-content">
+                  <h3>Group Therapy</h3>
+                  <p>
+                    Join supportive group sessions led by experienced
+                    therapists. Connect with others facing similar challenges in
+                    a safe, confidential environment.
+                  </p>
+                  <div class="treatment-features">
+                    <span class="feature">✓ Weekly Sessions</span>
+                    <span class="feature">✓ Peer Support</span>
+                    <span class="feature">✓ Cost Effective</span>
+                  </div>
+                  <button class="treatment-btn">View Groups</button>
+                </div>
+              </div>
+
+              <div class="treatment-card">
+                <div class="treatment-icon">💻</div>
+                <div class="treatment-content">
+                  <h3>Online Therapy</h3>
+                  <p>
+                    Access mental health support from the comfort of your home.
+                    Video, phone, and messaging options available with licensed
+                    therapists.
+                  </p>
+                  <div class="treatment-features">
+                    <span class="feature">✓ Flexible Scheduling</span>
+                    <span class="feature">✓ Remote Access</span>
+                    <span class="feature">✓ Multiple Formats</span>
+                  </div>
+                  <button class="treatment-btn">Start Online Therapy</button>
+                </div>
+              </div>
+
+              <div class="treatment-card">
+                <div class="treatment-icon">🏥</div>
+                <div class="treatment-content">
+                  <h3>Intensive Programs</h3>
+                  <p>
+                    Comprehensive treatment programs for those needing more
+                    intensive support. Includes day programs and intensive
+                    outpatient treatment.
+                  </p>
+                  <div class="treatment-features">
+                    <span class="feature">✓ Daily Sessions</span>
+                    <span class="feature">✓ Comprehensive Care</span>
+                    <span class="feature">✓ Structured Program</span>
+                  </div>
+                  <button class="treatment-btn">Learn More</button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/recommendation.js" defer></script>
+  </body>
+</html>

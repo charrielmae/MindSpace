@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <div class="header-left">
+          <div class="logo">
+            <div class="logo-shape"></div>
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img
+                src="../images/user-avatar.png"
+                alt="User"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="dashboard-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/dashboard.png"
+                        alt="Dashboard"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="mental-health-info.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/brain.png"
+                        alt="Mental Health"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="daily-mood.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/mood.png"
+                        alt="Daily Mood"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/doctor.png"
+                        alt="Recommendation"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="wellness-activities.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/wellness.png"
+                        alt="Wellness Activities"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="crisis-hotline.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/call.png"
+                        alt="Crisis Hotline"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Welcome Section -->
+          <section class="welcome-section">
+            <div class="welcome-content">
+              <h1>Welcome back, Charriel!</h1>
+              <p>
+                How are you feeling today? Let's check in on your mental
+                wellness journey.
+              </p>
+              <div class="mood-check">
+                <h3>How are you feeling?</h3>
+                <div class="mood-options">
+                  <button class="mood-btn" data-mood="great">😊 Great</button>
+                  <button class="mood-btn" data-mood="good">🙂 Good</button>
+                  <button class="mood-btn" data-mood="okay">😐 Okay</button>
+                  <button class="mood-btn" data-mood="bad">😔 Bad</button>
+                  <button class="mood-btn" data-mood="terrible">
+                    😢 Terrible
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="welcome-illustration">
+              <div class="illustration-card">
+                <img
+                  src="../images/dashboard-illustration.png"
+                  alt="Wellness Illustration"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Stats Grid -->
+          <section class="stats-section">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <img
+                    src="../images/check.png"
+                    alt="Sessions Completed"
+                    class="stat-icon-img"
+                  />
+                </div>
+                <div class="stat-content">
+                  <div class="stat-number">12</div>
+                  <div class="stat-label">Sessions Completed</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <img
+                    src="../images/improve.png"
+                    alt="Mood Improvement"
+                    class="stat-icon-img"
+                  />
+                </div>
+                <div class="stat-content">
+                  <div class="stat-number">85%</div>
+                  <div class="stat-label">Mood Improvement</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <img
+                    src="../images/streak.png"
+                    alt="Day Streak"
+                    class="stat-icon-img"
+                  />
+                </div>
+                <div class="stat-content">
+                  <div class="stat-number">7</div>
+                  <div class="stat-label">Day Streak</div>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon">
+                  <img
+                    src="../images/goal.png"
+                    alt="Goals Achieved"
+                    class="stat-icon-img"
+                  />
+                </div>
+                <div class="stat-content">
+                  <div class="stat-number">3</div>
+                  <div class="stat-label">Goals Achieved</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Main Content Grid -->
+          <div class="main-content-grid">
+            <!-- Recent Activity -->
+            <section class="activity-section">
+              <h2>Recent Activity</h2>
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon">🧘‍♀️</div>
+                  <div class="activity-content">
+                    <div class="activity-title">Meditation Session</div>
+                    <div class="activity-time">2 hours ago</div>
+                  </div>
+                  <div class="activity-status completed">Completed</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">📝</div>
+                  <div class="activity-content">
+                    <div class="activity-title">Journal Entry</div>
+                    <div class="activity-time">Yesterday</div>
+                  </div>
+                  <div class="activity-status completed">Completed</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">💬</div>
+                  <div class="activity-content">
+                    <div class="activity-title">Therapy Session</div>
+                    <div class="activity-time">2 days ago</div>
+                  </div>
+                  <div class="activity-status scheduled">Scheduled</div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon">🎯</div>
+                  <div class="activity-content">
+                    <div class="activity-title">Breathing Exercise</div>
+                    <div class="activity-time">3 days ago</div>
+                  </div>
+                  <div class="activity-status completed">Completed</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Upcoming Sessions -->
+            <section class="sessions-section">
+              <h2>Upcoming Sessions</h2>
+              <div class="sessions-list">
+                <div class="session-card">
+                  <div class="session-time">
+                    <div class="session-date">Today</div>
+                    <div class="session-hour">3:00 PM</div>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-title">Therapy Session</div>
+                    <div class="session-therapist">Dr. Sarah Johnson</div>
+                  </div>
+                  <div class="session-action">
+                    <button class="session-btn">Join</button>
+                  </div>
+                </div>
+                <div class="session-card">
+                  <div class="session-time">
+                    <div class="session-date">Tomorrow</div>
+                    <div class="session-hour">10:00 AM</div>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-title">Group Therapy</div>
+                    <div class="session-therapist">Support Group</div>
+                  </div>
+                  <div class="session-action">
+                    <button class="session-btn secondary">View</button>
+                  </div>
+                </div>
+                <div class="session-card">
+                  <div class="session-time">
+                    <div class="session-date">Friday</div>
+                    <div class="session-hour">2:00 PM</div>
+                  </div>
+                  <div class="session-info">
+                    <div class="session-title">Mindfulness Workshop</div>
+                    <div class="session-therapist">Dr. Michael Chen</div>
+                  </div>
+                  <div class="session-action">
+                    <button class="session-btn secondary">View</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/dashboard.js" defer></script>
+  </body>
+</html>
