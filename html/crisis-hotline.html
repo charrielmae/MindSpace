@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Crisis Hotline</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/crisis-hotline.css">
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="logo">
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img src="../images/user-avatar.png" alt="User" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="page-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon"><img src="../images/dashboard.png" alt="Dashboard" class="nav-icon-img"></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="mental-health-info.html" class="nav-link">
+                    <span class="nav-icon"><img src="../images/brain.png" alt="Mental Health" class="nav-icon-img"></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="daily-mood.html" class="nav-link">
+                    <span class="nav-icon"><img src="../images/mood.png" alt="Daily Mood" class="nav-icon-img"></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon"><img src="../images/doctor.png" alt="Recommendation" class="nav-icon-img"></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="wellness-activities.html" class="nav-link">
+                    <span class="nav-icon"><img src="../images/wellness.png" alt="Wellness Activities" class="nav-icon-img"></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+               
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"><img src="../images/call.png" alt="Crisis Hotline" class="nav-icon-img"></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          
+
+          <!-- Crisis Hotlines -->
+          <section class="hotlines-section">
+            <h2>24/7 Crisis Hotlines</h2>
+            <div class="hotlines-grid">
+              <div class="hotline-card primary">
+                <div class="hotline-header">
+                  <div class="hotline-icon">📞</div>
+                  <div class="hotline-badge">National</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>988 Suicide & Crisis Lifeline</h3>
+                  <p>Free, confidential support for people in distress, 24/7. Prevention and crisis resources for you or your loved ones.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Call:</span>
+                      <span class="contact-value">988</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">Text:</span>
+                      <span class="contact-value">988</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">Chat:</span>
+                      <span class="contact-value">988lifeline.org</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn" onclick="window.location.href='tel:988'">Call Now</button>
+                    <button class="hotline-btn secondary" onclick="window.open('https://988lifeline.org', '_blank')">Visit Website</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hotline-card">
+                <div class="hotline-header">
+                  <div class="hotline-icon">💬</div>
+                  <div class="hotline-badge">Text Support</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>Crisis Text Line</h3>
+                  <p>Text HOME to 741741 from anywhere in the US, anytime, about any type of crisis. Live, trained crisis counselors receive and respond to texts.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Text:</span>
+                      <span class="contact-value">HOME to 741741</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">Available:</span>
+                      <span class="contact-value">24/7</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn" onclick="window.open('sms:741741?body=HOME')">Text Now</button>
+                    <button class="hotline-btn secondary" onclick="window.open('https://www.crisistextline.org', '_blank')">Learn More</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hotline-card">
+                <div class="hotline-header">
+                  <div class="hotline-icon">🏥</div>
+                  <div class="hotline-badge">Veterans</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>Veterans Crisis Line</h3>
+                  <p>Connect with responders for Veterans in crisis and their families and friends. Free, confidential, available 24/7.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Call:</span>
+                      <span class="contact-value">988 then Press 1</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">Text:</span>
+                      <span class="contact-value">838255</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn" onclick="window.location.href='tel:988'">Call Now</button>
+                    <button class="hotline-btn secondary" onclick="window.open('https://www.veteranscrisisline.net', '_blank')">Visit Website</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hotline-card">
+                <div class="hotline-header">
+                  <div class="hotline-icon">👥</div>
+                  <div class="hotline-badge">LGBTQ+</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>The Trevor Project</h3>
+                  <p>Providing crisis intervention and suicide prevention services to lesbian, gay, bisexual, transgender, queer & questioning (LGBTQ) young people under 25.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Call:</span>
+                      <span class="contact-value">1-866-488-7386</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">Text:</span>
+                      <span class="contact-value">START to 678-678</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn" onclick="window.location.href='tel:18664887386'">Call Now</button>
+                    <button class="hotline-btn secondary" onclick="window.open('https://www.thetrevorproject.org', '_blank')">Visit Website</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hotline-card">
+                <div class="hotline-header">
+                  <div class="hotline-icon">👂</div>
+                  <div class="hotline-badge">Hearing Impaired</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>Deaf & Hard of Hearing Support</h3>
+                  <p>24/7 support for deaf and hard of hearing individuals in crisis. Video chat and text options available.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Video Chat:</span>
+                      <span class="contact-value">988lifeline.org/chat</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-label">TTY:</span>
+                      <span class="contact-value">1-800-799-4889</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn secondary" onclick="window.open('https://988lifeline.org/chat', '_blank')">Start Chat</button>
+                    <button class="hotline-btn secondary" onclick="window.location.href='tel:18007994889'">Call TTY</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hotline-card">
+                <div class="hotline-header">
+                  <div class="hotline-icon">🌍</div>
+                  <div class="hotline-badge">International</div>
+                </div>
+                <div class="hotline-content">
+                  <h3>International Crisis Hotlines</h3>
+                  <p>Find crisis support services available in your country. Mental health support is available worldwide.</p>
+                  <div class="hotline-contact">
+                    <div class="contact-item">
+                      <span class="contact-label">Directory:</span>
+                      <span class="contact-value">Find local support</span>
+                    </div>
+                  </div>
+                  <div class="hotline-actions">
+                    <button class="hotline-btn secondary" onclick="window.open('https://findahelpline.com', '_blank')">Find Helplines</button>
+                    <button class="hotline-btn secondary" onclick="window.open('https://www.iasp.info/resources/Crisis_Centres', '_blank')">IASP Directory</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Warning Signs -->
+          <section class="warning-signs-section">
+            <h2>Warning Signs of Crisis</h2>
+            <div class="warning-content">
+              <div class="warning-list">
+                <h3>Immediate Warning Signs</h3>
+                <ul>
+                  <li>Talking about wanting to die or to kill oneself</li>
+                  <li>Looking for a way to kill oneself</li>
+                  <li>Talking about feeling hopeless or having no reason to live</li>
+                  <li>Talking about feeling trapped or in unbearable pain</li>
+                  <li>Talking about being a burden to others</li>
+                  <li>Increasing use of alcohol or drugs</li>
+                  <li>Acting anxious or agitated; behaving recklessly</li>
+                  <li>Sleeping too little or too much</li>
+                  <li>Withdrawing or feeling isolated</li>
+                  <li>Showing rage or talking about seeking revenge</li>
+                  <li>Displaying extreme mood swings</li>
+                </ul>
+              </div>
+              
+              <div class="action-steps">
+                <h3>What to Do</h3>
+                <ol>
+                  <li><strong>Do not leave the person alone</strong> - Stay with them until help arrives</li>
+                  <li><strong>Remove any means of self-harm</strong> - Firearms, medications, sharp objects</li>
+                  <li><strong>Call 988 or 911 immediately</strong> - Don't wait to see if they get better</li>
+                  <li><strong>Listen without judgment</strong> - Show you care and take them seriously</li>
+                  <li><strong>Get professional help</strong> - Call emergency services or take them to ER</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+         
+
+          <!-- Safety Planning -->
+          <section class="safety-planning-section">
+            <h2>Create a Safety Plan</h2>
+            <div class="safety-content">
+              <div class="safety-info">
+                <p>A safety plan is a prioritized list of coping strategies and sources of support to help you during a mental health crisis. Having a plan in place can help you stay safe and get the help you need.</p>
+                
+                <div class="safety-steps">
+                  <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Recognize Warning Signs</h3>
+                    <p>Identify your personal warning signs that a crisis may be developing.</p>
+                  </div>
+                  
+                  <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Internal Coping Strategies</h3>
+                    <p>List activities you can do by yourself to take your mind off problems.</p>
+                  </div>
+                  
+                  <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Social Contacts</h3>
+                    <p>Identify friends, family, or professionals who can help distract you.</p>
+                  </div>
+                  
+                  <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Professionals & Agencies</h3>
+                    <p>List mental health professionals and crisis hotlines you can contact.</p>
+                  </div>
+                  
+                  <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3>Secure Environment</h3>
+                    <p>Make your environment safe by removing means of self-harm.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="safety-actions">
+                <button class="safety-btn primary" onclick="window.crisisHotlineManager.createSafetyPlan()">Create My Plan</button>
+                <button class="safety-btn secondary" onclick="window.open('https://www.suicidepreventionlifeline.org/help-yourself/create-a-safety-plan', '_blank')">Learn More</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/crisis-hotline.js" defer></script>
+  </body>
+</html>
