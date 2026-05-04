@@ -3,5 +3,6 @@
     "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
     "files.autoSave": "off",
     "notebook.formatOnSave.enabled": true,
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
 }
