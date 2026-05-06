@@ -79,7 +79,10 @@ body {
   gap: 15px;
 }
 
-.btn {
+.btn,
+.btn:link,
+.btn:visited {
+  display: inline-block;
   padding: 12px 24px;
   border: none;
   border-radius: 25px;
@@ -87,6 +90,8 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
+  text-decoration: none;
+  text-align: center;
 }
 
 .btn-outline {

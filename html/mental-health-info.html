@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MindSpace - Mental Health Information</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/mental-health-info.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Header -->
+      <header class="page-header">
+        <div class="header-left">
+          <div class="logo">
+            <div class="logo-shape"></div>
+            <span>MindSpace</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-info">
+            <div class="user-avatar">
+              <img
+                src="../images/user-avatar.png"
+                alt="User"
+                onerror="
+                  this.style.display = 'none';
+                  this.nextElementSibling.style.display = 'flex';
+                "
+              />
+              <div class="avatar-placeholder">CM</div>
+            </div>
+            <div class="user-details">
+              <div class="user-name">Charriel Mae M. Ayuban</div>
+              <div class="user-status">Active</div>
+            </div>
+          </div>
+          <button class="notification-btn">
+            <span class="notification-icon">🔔</span>
+            <span class="notification-badge">3</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="page-main">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <h3 class="nav-title">Main</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="dashboard.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/dashboard.png"
+                        alt="Dashboard"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Dashboard</span>
+                  </a>
+                </li>
+                <li class="nav-item active">
+                  <a href="#" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/brain.png"
+                        alt="Mental Health"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Mental Health Info</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="daily-mood.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/mood.png"
+                        alt="Daily Mood"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Daily Mood</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="recommendation.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/doctor.png"
+                        alt="Recommendation"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Recommendation</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="nav-section">
+              <h3 class="nav-title">Others</h3>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="wellness-activities.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/wellness.png"
+                        alt="Wellness Activities"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Wellness Activities</span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="crisis-hotline.html" class="nav-link">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/call.png"
+                        alt="Crisis Hotline"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Crisis Hotline</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+          <!-- Page Header -->
+          <section class="page-hero">
+            <div class="hero-content">
+              <h1>Mental Health Information</h1>
+              <p>
+                Understanding mental health is the first step toward wellness.
+                Learn about common conditions, symptoms, and effective
+                strategies for maintaining mental wellbeing.
+              </p>
+            </div>
+            <div class="hero-illustration">
+              <div class="illustration-card">
+                <img
+                  src="../images/mental-health-illustration.png"
+                  alt="Mental Health"
+                  onerror="this.style.display = 'none'"
+                />
+              </div>
+            </div>
+          </section>
+
+          <!-- Mental Health Conditions -->
+          <section class="conditions-section">
+            <h2>Common Mental Health Conditions</h2>
+            <div class="conditions-grid">
+              <div class="condition-card">
+                <div class="condition-icon">😰</div>
+                <div class="condition-content">
+                  <h3>Anxiety Disorders</h3>
+                  <p>
+                    Excessive worry, fear, or nervousness that interferes with
+                    daily activities. Includes generalized anxiety, panic
+                    attacks, and phobias.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 1 in 5 adults</span>
+                    <span class="stat">Highly treatable</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">😔</div>
+                <div class="condition-content">
+                  <h3>Depression</h3>
+                  <p>
+                    Persistent sadness, loss of interest, and feelings of
+                    worthlessness that affect daily functioning and quality of
+                    life.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 1 in 6 adults</span>
+                    <span class="stat">Most common mental disorder</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">😫</div>
+                <div class="condition-content">
+                  <h3>Stress Disorders</h3>
+                  <p>
+                    Emotional and physical strain caused by overwhelming
+                    pressures, including PTSD and acute stress responses.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">77% experience stress</span>
+                    <span class="stat">Manageable with techniques</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">😴</div>
+                <div class="condition-content">
+                  <h3>Sleeping Disorders</h3>
+                  <p>
+                    Conditions affecting sleep quality, timing, and duration,
+                    including insomnia, sleep apnea, and narcolepsy.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 50-70 million adults</span>
+                    <span class="stat">Impacts overall health</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">🍽️</div>
+                <div class="condition-content">
+                  <h3>Eating Disorders</h3>
+                  <p>
+                    Severe disturbances in eating behaviors, including anorexia,
+                    bulimia, and binge eating disorders.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 9% of population</span>
+                    <span class="stat">Serious but treatable</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">🔥</div>
+                <div class="condition-content">
+                  <h3>Burnout</h3>
+                  <p>
+                    Emotional, physical, and mental exhaustion caused by
+                    excessive and prolonged stress, particularly in work
+                    environments.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 76% of workers</span>
+                    <span class="stat">Preventable with balance</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">🔄</div>
+                <div class="condition-content">
+                  <h3>Obsessive-Compulsive Disorder</h3>
+                  <p>
+                    Pattern of unwanted thoughts and fears (obsessions) that
+                    lead to repetitive behaviors (compulsions).
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 2.3% of population</span>
+                    <span class="stat">Treatable with therapy</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="condition-card">
+                <div class="condition-icon">💊</div>
+                <div class="condition-content">
+                  <h3>Substance Use Disorders</h3>
+                  <p>
+                    Problematic use of alcohol, drugs, or other substances that
+                    leads to significant impairment or distress.
+                  </p>
+                  <div class="condition-stats">
+                    <span class="stat">Affects 20 million Americans</span>
+                    <span class="stat">Recovery is possible</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Mental Health Tips -->
+          <section class="tips-section">
+            <h2>Mental Health Wellness Tips</h2>
+            <div class="tips-grid">
+              <div class="tip-card">
+                <div class="tip-icon">🏃‍♀️</div>
+                <h3>Regular Exercise</h3>
+                <p>
+                  Physical activity releases endorphins and reduces stress
+                  hormones. Aim for 30 minutes of moderate exercise daily.
+                </p>
+              </div>
+
+              <div class="tip-card">
+                <div class="tip-icon">😴</div>
+                <h3>Quality Sleep</h3>
+                <p>
+                  Maintain 7-9 hours of quality sleep. Establish a consistent
+                  sleep schedule and create a relaxing bedtime routine.
+                </p>
+              </div>
+
+              <div class="tip-card">
+                <div class="tip-icon">🥗</div>
+                <h3>Balanced Nutrition</h3>
+                <p>
+                  Eat a variety of nutritious foods. Omega-3 fatty acids,
+                  vitamins, and minerals support brain health and mood
+                  regulation.
+                </p>
+              </div>
+
+              <div class="tip-card">
+                <div class="tip-icon">🧘‍♀️</div>
+                <h3>Mindfulness & Meditation</h3>
+                <p>
+                  Practice mindfulness to reduce anxiety and improve emotional
+                  regulation. Even 10 minutes daily can make a difference.
+                </p>
+              </div>
+
+              <div class="tip-card">
+                <div class="tip-icon">👥</div>
+                <h3>Social Connections</h3>
+                <p>
+                  Maintain meaningful relationships. Social support is crucial
+                  for mental resilience and overall wellbeing.
+                </p>
+              </div>
+
+              <div class="tip-card">
+                <div class="tip-icon">📝</div>
+                <h3>Journaling</h3>
+                <p>
+                  Express thoughts and feelings through writing. Journaling
+                  helps process emotions and identify patterns in thinking.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Warning Signs -->
+          <section class="warning-section">
+            <h2>When to Seek Professional Help</h2>
+            <div class="warning-content">
+              <div class="warning-list">
+                <h3>Warning Signs</h3>
+                <ul>
+                  <li>
+                    Persistent sadness or hopelessness lasting more than two
+                    weeks
+                  </li>
+                  <li>Significant changes in sleep or appetite</li>
+                  <li>Loss of interest in activities once enjoyed</li>
+                  <li>Difficulty concentrating or making decisions</li>
+                  <li>Withdrawal from friends and family</li>
+                  <li>
+                    Unexplained physical symptoms like headaches or stomach
+                    issues
+                  </li>
+                  <li>Thoughts of self-harm or suicide</li>
+                  <li>Substance abuse or risky behaviors</li>
+                </ul>
+              </div>
+
+              <div class="action-card">
+                <h3>Take Action</h3>
+                <p>
+                  If you or someone you know is experiencing these symptoms,
+                  don't hesitate to seek help:
+                </p>
+                <div class="action-buttons">
+                  <button class="action-btn primary">Find a Therapist</button>
+                  <button class="action-btn secondary">Talk to Someone</button>
+                  <button class="action-btn secondary">
+                    Emergency Resources
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Resources -->
+          <section class="resources-section">
+            <h2>Helpful Resources</h2>
+            <div class="resources-grid">
+              <div class="resource-card">
+                <div class="resource-icon">📚</div>
+                <h3>Educational Materials</h3>
+                <p>
+                  Books, articles, and research papers about mental health
+                  conditions and treatments.
+                </p>
+                <button class="resource-btn">Browse Resources</button>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-icon">🎥</div>
+                <h3>Video Content</h3>
+                <p>
+                  Educational videos, webinars, and documentaries about mental
+                  health topics.
+                </p>
+                <button class="resource-btn">Watch Videos</button>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-icon">🎧</div>
+                <h3>Podcasts & Audio</h3>
+                <p>
+                  Mental health podcasts, guided meditations, and relaxation
+                  audio content.
+                </p>
+                <button class="resource-btn">Listen Now</button>
+              </div>
+
+              <div class="resource-card">
+                <div class="resource-icon">📱</div>
+                <h3>Mental Health Apps</h3>
+                <p>
+                  Recommended apps for mood tracking, meditation, therapy, and
+                  mental wellness.
+                </p>
+                <button class="resource-btn">View Apps</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../javascript/mental-health-info.js" defer></script>
+  </body>
+</html>
