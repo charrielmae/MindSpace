@@ -593,9 +593,8 @@ section h2 {
 }
 
 .therapy-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+  text-align: center;
   margin-top: 30px;
   padding: 15px;
   background: rgba(255, 255, 255, 0.5);
@@ -607,12 +606,14 @@ section h2 {
   color: #718096;
   font-size: 0.9rem;
   font-weight: 500;
+  margin-top: 15px;
 }
 
 .therapy-pagination .pagination-controls {
   display: flex;
   align-items: center;
   gap: 15px;
+  justify-content: center;
 }
 
 .therapy-pagination .pagination-btn {

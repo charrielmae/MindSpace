@@ -694,9 +694,8 @@ section h2 {
 
 /* Pagination Styles */
 .mood-log-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+  text-align: center;
   margin-top: 20px;
   padding: 15px;
   background: rgba(255, 255, 255, 0.5);
@@ -708,12 +707,14 @@ section h2 {
   color: #718096;
   font-size: 0.9rem;
   font-weight: 500;
+  margin-top: 15px;
 }
 
 .pagination-controls {
   display: flex;
   align-items: center;
   gap: 15px;
+  justify-content: center;
 }
 
 .pagination-btn {
