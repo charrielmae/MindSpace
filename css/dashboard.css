@@ -736,6 +736,22 @@ body {
   font-size: 1.2rem;
 }
 
+/* Logout Button Styling */
+.logout-item .nav-link {
+  color: #4A5568 !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-item .nav-link:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #000000 !important;
+}
+
+.logout-item .nav-link:active {
+  transform: scale(0.95);
+}
+
 .ai-insight-modal {
   display: none;
   position: fixed;
@@ -828,12 +844,12 @@ body {
 }
 
 .analyze-health-button:hover {
-  background: linear-gradient(135deg, #3182ce, #2c5282);
+  background: pink;
   transform: translateY(-2px);
 }
 
 .analyze-health-button:disabled {
-  background: linear-gradient(135deg, #718096, #4a5568);
+  background: linear-gradient(135deg, #cf816b, #f19677);
   cursor: not-allowed;
   transform: none;
 }

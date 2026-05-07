@@ -19,6 +19,12 @@ class CrisisHotlineManager {
       link.addEventListener('click', (e) => this.handleNavigation(e));
     });
 
+    // Logout functionality
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => this.handleLogout());
+    }
+
     // Notifications
     const notificationBtn = document.querySelector('.notification-btn');
     if (notificationBtn) {
@@ -39,6 +45,13 @@ class CrisisHotlineManager {
     }
 
     window.location.href = href;
+  }
+
+  handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('mindspace_user');
+      window.location.href = 'landing.html';
+    }
   }
 
   loadEmergencyContacts() {

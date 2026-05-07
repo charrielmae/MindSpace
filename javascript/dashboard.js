@@ -7,6 +7,7 @@ class DashboardManager {
     this.notifications = [];
     this.sessions = [];
     this.aiModal = null;
+    this.sidebarVisible = false;
     this.init();
   }
 
@@ -16,7 +17,45 @@ class DashboardManager {
     this.loadDashboardData();
     this.startRealTimeUpdates();
     this.initializeAIModal();
+    this.initializeSidebar();
     console.log("Dashboard initialized");
+  }
+
+  initializeSidebar() {
+    // Show sidebar toggle button on scroll
+    window.addEventListener('scroll', () => {
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (window.scrollY > 50) {
+        sidebarToggle.style.display = 'block';
+        sidebar.classList.add('visible');
+      } else {
+        sidebarToggle.style.display = 'none';
+        sidebar.classList.remove('visible');
+      }
+    });
+  }
+
+  toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    this.sidebarVisible = !this.sidebarVisible;
+    
+    if (this.sidebarVisible) {
+      sidebar.classList.add('visible');
+    } else {
+      sidebar.classList.remove('visible');
+    }
+  }
+
+  handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      // Clear user data
+      localStorage.removeItem('mindspace_user');
+      
+      // Redirect to landing page
+      window.location.href = 'landing.html';
+    }
   }
 
   loadUserData() {
