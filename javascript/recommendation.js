@@ -151,11 +151,11 @@ class RecommendationManager {
         id: 5,
         question: "What's your budget range per session?",
         options: [
-          "Under $50",
-          "$50-$100",
-          "$100-$150",
-          "$150-$200",
-          "Over $200",
+          "Php 500 - Php 1,000",
+          "Php 1,500 - Php 2,000",
+          "Php 2,500 - Php 3,000",
+          "Php 3,500 - Php 5,000",
+          "Over Php 5,000",
         ],
       },
     ];
@@ -421,27 +421,27 @@ class RecommendationManager {
       }
 
       // Match by budget
-      if (budget.includes("Under $50")) {
+      if (budget.includes("Php 500 - Php 1,000")) {
         matches =
-          matches && parseInt(therapist.price.replace(/[$,]/g, "")) <= 50;
-      } else if (budget.includes("$50-$100")) {
-        matches =
-          matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 50 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 100;
-      } else if (budget.includes("$100-$150")) {
+          matches && parseInt(therapist.price.replace(/[$,]/g, "")) <= 1000;
+      } else if (budget.includes("Php 1,500 - Php 2,000")) {
         matches =
           matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 100 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 150;
-      } else if (budget.includes("$150-$200")) {
+          parseInt(therapist.price.replace(/[$,]/g, "")) > 1500 &&
+          parseInt(therapist.price.replace(/[$,]/g, "")) <= 2000;
+      } else if (budget.includes("Php 2,500 - Php 3,000")) {
         matches =
           matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 150 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 200;
-      } else if (budget.includes("Over $200")) {
+          parseInt(therapist.price.replace(/[$,]/g, "")) > 2500 &&
+          parseInt(therapist.price.replace(/[$,]/g, "")) <= 3000;
+      } else if (budget.includes("Php 3,500 - Php 5,000")) {
         matches =
-          matches && parseInt(therapist.price.replace(/[$,]/g, "")) > 200;
+          matches &&
+          parseInt(therapist.price.replace(/[$,]/g, "")) > 3500 &&
+          parseInt(therapist.price.replace(/[$,]/g, "")) <= 5000;
+      } else if (budget.includes("Over Php 5,000")) {
+        matches =
+          matches && parseInt(therapist.price.replace(/[$,]/g, "")) > 5000;
       }
 
       return matches;
@@ -543,14 +543,14 @@ class RecommendationManager {
     this.therapists = [
       {
         id: 1,
-        name: "Dr. Sarah Johnson",
+        name: "Dr. Ashley Queen Buba",
         title: "Licensed Clinical Psychologist",
         credentials: "PhD, PsyD",
-        avatar: "SJ",
+        avatar: "AB",
         specialties: ["Anxiety Disorders", "Depression", "Stress Management"],
         description:
           "Specializing in cognitive behavioral therapy for anxiety and depression. 10+ years of experience helping adults overcome mental health challenges.",
-        price: "$120",
+        price: "Php 1,000",
         rating: 4.8,
         reviews: 127,
         therapyType: "cbt",
@@ -558,10 +558,10 @@ class RecommendationManager {
       },
       {
         id: 2,
-        name: "Dr. Michael Chen",
+        name: "Dr. Hazel Mae P. Bojawe",
         title: "Psychiatrist",
         credentials: "MD",
-        avatar: "MC",
+        avatar: "HB",
         specialties: [
           "Medication Management",
           "Depression",
@@ -569,7 +569,7 @@ class RecommendationManager {
         ],
         description:
           "Board-certified psychiatrist specializing in medication management and integrated treatment approaches for mood disorders.",
-        price: "$200",
+        price: "Php 2,000",
         rating: 4.9,
         reviews: 89,
         therapyType: "medication",
@@ -577,14 +577,14 @@ class RecommendationManager {
       },
       {
         id: 3,
-        name: "Emily Rodriguez",
+        name: "Jobert Jan Bautista",
         title: "Licensed Marriage & Family Therapist",
         credentials: "LMFT",
-        avatar: "ER",
+        avatar: "JB",
         specialties: ["Relationships", "Family Therapy", "Couples Counseling"],
         description:
           "Helping individuals and couples improve their relationships and communication. Specialized in family systems therapy.",
-        price: "$95",
+        price: "Php 3,000",
         rating: 4.7,
         reviews: 156,
         therapyType: "family",
@@ -592,14 +592,14 @@ class RecommendationManager {
       },
       {
         id: 4,
-        name: "Dr. James Wilson",
+        name: "Dr. Juliana Angel N. Clado",
         title: "Clinical Psychologist",
         credentials: "PhD",
-        avatar: "JW",
+        avatar: "JC",
         specialties: ["Trauma & PTSD", "Anxiety", "Depression"],
         description:
           "Expert in trauma-informed care and EMDR therapy. Helping individuals heal from past trauma and build resilience.",
-        price: "$150",
+        price: "Php 1,500",
         rating: 4.8,
         reviews: 203,
         therapyType: "trauma",
@@ -607,14 +607,14 @@ class RecommendationManager {
       },
       {
         id: 5,
-        name: "Lisa Thompson",
+        name: "John Paul Quedit",
         title: "Licensed Clinical Social Worker",
         credentials: "LCSW",
-        avatar: "LT",
+        avatar: "JP",
         specialties: ["Addiction", "Stress Management", "Life Transitions"],
         description:
           "Compassionate therapist specializing in addiction recovery and life coaching. Holistic approach to mental wellness.",
-        price: "$85",
+        price: "Php 2,000",
         rating: 4.6,
         reviews: 94,
         therapyType: "addiction",
@@ -622,14 +622,14 @@ class RecommendationManager {
       },
       {
         id: 6,
-        name: "Dr. Robert Davis",
+        name: "Dr. Jonard Sabsalon",
         title: "Psychologist",
         credentials: "PsyD",
-        avatar: "RD",
+        avatar: "JS",
         specialties: ["Relationships", "Depression", "Anxiety"],
         description:
           "Integrative approach combining cognitive behavioral therapy with mindfulness techniques. Specializing in adult relationships.",
-        price: "$110",
+        price: "Php 2,500",
         rating: 4.7,
         reviews: 178,
         therapyType: "humanistic",

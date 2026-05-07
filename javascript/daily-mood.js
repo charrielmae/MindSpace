@@ -309,9 +309,9 @@ class DailyMoodManager {
   }
 
   generateSampleData() {
-    const moods = ["excellent", "good", "okay", "bad", "terrible"];
+    const moods = ["great", "good", "sleepy", "bad", "exhausted"];
     const influences = [
-      "work",
+      "school",
       "family",
       "friends",
       "health",
@@ -399,11 +399,11 @@ class DailyMoodManager {
     }
 
     const moodEmojis = {
-      excellent: "😄",
+      great: "🤭",
       good: "😊",
-      okay: "😐",
-      bad: "😔",
-      terrible: "😢",
+      sleepy: "🫩",
+      bad: "😖",
+      exhausted: "😮‍💨",
       skipped: "⏭️",
     };
 
@@ -474,11 +474,11 @@ class DailyMoodManager {
       .slice(startIndex, endIndex);
 
     const moodEmojis = {
-      excellent: "😄",
+      great: "🤭",
       good: "😊",
-      okay: "😐",
-      bad: "😔",
-      terrible: "😢",
+      sleepy: "🫩",
+      bad: "😖",
+      exhausted: "😮‍💨",
       skipped: "⏭️",
     };
 
@@ -568,7 +568,7 @@ class DailyMoodManager {
         <div class="form-section">
           <h4>Mood for ${new Date(date).toLocaleDateString()}</h4>
           <div class="mood-options">
-            ${["excellent", "good", "okay", "bad", "terrible"]
+            ${["great", "good", "sleepy", "bad", "exhausted"]
               .map(
                 (mood) => `
               <button class="mood-btn ${entry.mood === mood ? "selected" : ""}" data-mood="${mood}">
@@ -680,22 +680,22 @@ class DailyMoodManager {
 
   getMoodEmoji(mood) {
     const emojis = {
-      excellent: "😄",
+      great: "😄",
       good: "😊",
-      okay: "😐",
-      bad: "😔",
-      terrible: "😢",
+      sleepy: "🫩",
+      bad: "😖",
+      exhausted: "😮‍💨",
     };
     return emojis[mood] || "❓";
   }
 
   getMoodValue(mood) {
     const values = {
-      excellent: 5,
+      great: 5,
       good: 4,
-      okay: 3,
+      sleepy: 3,
       bad: 2,
-      terrible: 1,
+      exhausted: 1,
     };
     return values[mood] || 0;
   }

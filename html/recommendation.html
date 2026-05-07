@@ -38,7 +38,7 @@
             </div>
           </div>
           <button class="notification-btn">
-            <span class="notification-icon">🔔</span>
+            <span class="notification-icon"><ion-icon name="notifications"></ion-icon></span>
             <span class="notification-badge">3</span>
           </button>
         </div>
@@ -226,10 +226,10 @@
                 <label for="priceFilter">Price Range</label>
                 <select id="priceFilter" class="filter-select">
                   <option value="">All Prices</option>
-                  <option value="0-50">$0 - $50</option>
-                  <option value="50-100">$50 - $100</option>
-                  <option value="100-150">$100 - $150</option>
-                  <option value="150+">$150+</option>
+                  <option value="0-50">Php 0 - Php 500</option>
+                  <option value="50-100">Php 1,000 - Php 1,500</option>
+                  <option value="100-150">Php 2,000 - Php 2,500</option>
+                  <option value="150+">Php 3,500+</option>
                 </select>
               </div>
             </div>
@@ -338,5 +338,7 @@
     </div>
 
     <script src="../javascript/recommendation.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 </html>

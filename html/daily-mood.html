@@ -38,7 +38,7 @@
             </div>
           </div>
           <button class="notification-btn">
-            <span class="notification-icon">🔔</span>
+            <span class="notification-icon"><ion-icon name="notifications"></ion-icon></span>
             <span class="notification-badge">3</span>
           </button>
         </div>
@@ -155,25 +155,25 @@
 
               <div class="mood-options">
                 <div class="mood-group">
-                  <button class="mood-btn" data-mood="excellent" data-value="5">
-                    <span class="mood-emoji">😄</span>
-                    <span class="mood-label">Excellent</span>
+                  <button class="mood-btn" data-mood="great" data-value="5">
+                    <span class="mood-emoji">🤭</span>
+                    <span class="mood-label">Great</span>
                   </button>
                   <button class="mood-btn" data-mood="good" data-value="4">
                     <span class="mood-emoji">😊</span>
                     <span class="mood-label">Good</span>
                   </button>
-                  <button class="mood-btn" data-mood="okay" data-value="3">
-                    <span class="mood-emoji">😐</span>
-                    <span class="mood-label">Okay</span>
+                  <button class="mood-btn" data-mood="sleepy" data-value="3">
+                    <span class="mood-emoji">🫩</span>
+                    <span class="mood-label">Sleepy</span>
                   </button>
                   <button class="mood-btn" data-mood="bad" data-value="2">
-                    <span class="mood-emoji">😔</span>
+                    <span class="mood-emoji">😖</span>
                     <span class="mood-label">Bad</span>
                   </button>
-                  <button class="mood-btn" data-mood="terrible" data-value="1">
-                    <span class="mood-emoji">😢</span>
-                    <span class="mood-label">Terrible</span>
+                  <button class="mood-btn" data-mood="exhausted" data-value="1">
+                    <span class="mood-emoji">😮‍💨</span>
+                    <span class="mood-label">Exhausted</span>
                   </button>
                 </div>
               </div>
@@ -189,10 +189,10 @@
                 </div>
 
                 <div class="detail-group">
-                  <label>What influenced your mood?</label>
+                  <label>What influences your mood?</label>
                   <div class="influence-tags">
-                    <button class="influence-tag" data-influence="work">
-                      Work
+                    <button class="influence-tag" data-influence="School">
+                      School
                     </button>
                     <button class="influence-tag" data-influence="family">
                       Family
@@ -245,8 +245,8 @@
                     <button class="activity-tag" data-activity="nature">
                       Nature
                     </button>
-                    <button class="activity-tag" data-activity="creative">
-                      Creative
+                    <button class="activity-tag" data-activity="Crafts">
+                      Crafts
                     </button>
                   </div>
                 </div>
@@ -283,8 +283,8 @@
                 </select>
                 <select id="logYearFilter" class="filter-select">
                   <option value="">All Years</option>
+                  <option value="2025">2025</option>
                   <option value="2024">2024</option>
-                  <option value="2023">2023</option>
                 </select>
               </div>
               <button class="export-btn" id="exportLogBtn">Export Log</button>
@@ -315,21 +315,21 @@
             <h2>Mood Insights</h2>
             <div class="insights-grid">
               <div class="insight-card">
-                <div class="insight-icon">🌅</div>
+                <div class="insight-icon">☀️</div>
                 <div class="insight-content">
                   <h3>Morning Person</h3>
                   <p>
                     Your mood is typically 23% better in the morning. Consider
-                    scheduling important activities earlier in the day.
+                    interacting with important activities earlier in the day.
                   </p>
                 </div>
               </div>
               <div class="insight-card">
-                <div class="insight-icon">🏃‍♀️</div>
+                <div class="insight-icon">🚴🏽‍♂️</div>
                 <div class="insight-content">
                   <h3>Exercise Boost</h3>
                   <p>
-                    Days you exercise show a 35% improvement in mood scores.
+                    Through the days you are exercising this shows around 35% improvement in mood scores.
                     Keep up the physical activity!
                   </p>
                 </div>
@@ -337,19 +337,19 @@
               <div class="insight-card">
                 <div class="insight-icon">😴</div>
                 <div class="insight-content">
-                  <h3>Sleep Connection</h3>
+                  <h3>Body Clock</h3>
                   <p>
-                    Poor sleep correlates with lower mood ratings. Aim for 7-9
-                    hours of quality sleep.
+                    Poor sleep correlates with lower mood ratings. Aim for 5-8
+                    hours of quality sleep. Start achieving better sleep habits now!
                   </p>
                 </div>
               </div>
               <div class="insight-card">
-                <div class="insight-icon">👥</div>
+                <div class="insight-icon">👯‍♂️</div>
                 <div class="insight-content">
-                  <h3>Social Impact</h3>
+                  <h3>Social Interaction</h3>
                   <p>
-                    Social interactions improve your mood by 28%. Make time for
+                    Social interactions improve your mood by 25%. Make bond with your
                     friends and family.
                   </p>
                 </div>
@@ -361,5 +361,7 @@
     </div>
 
     <script src="../javascript/daily-mood.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   </body>
 </html>
