@@ -6,6 +6,8 @@ class DashboardManager {
     this.selectedMood = null;
     this.notifications = [];
     this.sessions = [];
+    this.aiModal = null;
+    this.sidebarVisible = false;
     this.init();
   }
 
@@ -14,7 +16,46 @@ class DashboardManager {
     this.bindEvents();
     this.loadDashboardData();
     this.startRealTimeUpdates();
+    this.initializeAIModal();
+    this.initializeSidebar();
     console.log("Dashboard initialized");
+  }
+
+  initializeSidebar() {
+    // Show sidebar toggle button on scroll
+    window.addEventListener('scroll', () => {
+      const sidebarToggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar');
+      
+      if (window.scrollY > 50) {
+        sidebarToggle.style.display = 'block';
+        sidebar.classList.add('visible');
+      } else {
+        sidebarToggle.style.display = 'none';
+        sidebar.classList.remove('visible');
+      }
+    });
+  }
+
+  toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    this.sidebarVisible = !this.sidebarVisible;
+    
+    if (this.sidebarVisible) {
+      sidebar.classList.add('visible');
+    } else {
+      sidebar.classList.remove('visible');
+    }
+  }
+
+  handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      // Clear user data
+      localStorage.removeItem('mindspace_user');
+      
+      // Redirect to landing page
+      window.location.href = 'landing.html';
+    }
   }
 
   loadUserData() {
@@ -419,6 +460,146 @@ class DashboardManager {
     localStorage.removeItem("moodspace_user");
     localStorage.removeItem("moodspace_moods");
     window.location.href = "landing.html";
+  }
+
+  initializeAIModal() {
+    this.aiModal = document.getElementById('aiInsightModal');
+    const openBtn = document.getElementById('openAiInsightModal');
+    const closeBtn = document.querySelector('.close-button');
+    const analyzeBtn = document.getElementById('analyzeHealthButton');
+
+    if (openBtn) openBtn.addEventListener('click', () => this.openAIModal());
+    if (closeBtn) closeBtn.addEventListener('click', () => this.closeAIModal());
+    if (analyzeBtn) analyzeBtn.addEventListener('click', () => this.analyzeHealth());
+    
+    if (this.aiModal) {
+      this.aiModal.addEventListener('click', (e) => {
+        if (e.target === this.aiModal) this.closeAIModal();
+      });
+    }
+  }
+
+  openAIModal() {
+    if (this.aiModal) {
+      this.aiModal.style.display = 'block';
+      this.getAIRecommendation();
+    }
+  }
+
+  closeAIModal() {
+    if (this.aiModal) {
+      this.aiModal.style.display = 'none';
+    }
+  }
+
+  async analyzeHealth() {
+    const analyzeBtn = document.getElementById('analyzeHealthButton');
+    const recommendationEl = document.getElementById('aiInsightRecommendation');
+    
+    if (analyzeBtn) {
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = 'Analyzing...';
+    }
+
+    try {
+      const recommendation = await this.getAIRecommendation();
+      if (recommendationEl) {
+        recommendationEl.innerHTML = recommendation;
+      }
+    } catch (error) {
+      console.error('AI analysis failed:', error);
+      if (recommendationEl) {
+        recommendationEl.innerHTML = 'Sorry, I encountered an error. Please try again later.';
+      }
+    } finally {
+      if (analyzeBtn) {
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = 'Analyze Health';
+      }
+    }
+  }
+
+  async getAIRecommendation() {
+    const recommendationEl = document.getElementById('aiInsightRecommendation');
+    if (recommendationEl) {
+      recommendationEl.classList.add('loading');
+      recommendationEl.textContent = 'Analyzing your mood patterns...';
+    }
+
+    try {
+      const moodData = this.getRecentMoodData();
+      const prompt = this.buildAIPrompt(moodData);
+      
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_GEMINI_API_KEY_HERE', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            temperature: 0.7,
+            topK: 1,
+            topP: 1,
+            maxOutputTokens: 300,
+          }
+        })
+      });
+
+      if (!response.ok) throw new Error('API request failed');
+      
+      const data = await response.json();
+      return this.formatAIResponse(data.candidates[0].content.parts[0].text);
+      
+    } catch (error) {
+      console.error('Gemini AI API error:', error);
+      return this.getFallbackRecommendation(moodData);
+    } finally {
+      if (recommendationEl) {
+        recommendationEl.classList.remove('loading');
+      }
+    }
+  }
+
+  getRecentMoodData() {
+    try {
+      const moods = JSON.parse(localStorage.getItem('moodspace_moods') || '[]');
+      return moods.slice(-7);
+    } catch {
+      return [];
+    }
+  }
+
+  buildAIPrompt(moodData) {
+    const moodSummary = moodData.map(m => `${m.mood} on ${new Date(m.timestamp).toLocaleDateString()}`).join(', ');
+    return `Based on my recent mood entries: ${moodSummary}. 
+    Please provide personalized mental health recommendations in a paragraph followed by 3-4 bullet points with specific actionable suggestions. 
+    Keep it encouraging and supportive.`;
+  }
+
+  formatAIResponse(response) {
+    const lines = response.split('\n').filter(line => line.trim());
+    let formatted = '';
+    
+    lines.forEach(line => {
+      if (line.startsWith('-') || line.startsWith('*') || line.startsWith('•')) {
+        formatted += `<li>${line.replace(/^[-*•]\s*/, '')}</li>`;
+      } else if (line.trim()) {
+        formatted += `<p>${line}</p>`;
+      }
+    });
+    
+    return formatted || response;
+  }
+
+  getFallbackRecommendation(moodData) {
+    return `<p>Based on your recent mood patterns, here are some personalized recommendations:</p>
+    <ul>
+      <li>Try a 5-minute mindfulness meditation when feeling overwhelmed</li>
+      <li>Take regular breaks and stretch throughout the day</li>
+      <li>Connect with a friend or loved one for support</li>
+      <li>Engage in a creative activity you enjoy</li>
+    </ul>`;
   }
 }
 

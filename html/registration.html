@@ -3,34 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>MindSpace - Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
-  <div class="registration-box">
-    <form action="">
-      <h2>Register</h2>
-      <div class="input-box">
-        <span class="icon"><i class="fa fa-user"><ion-icon name="person"></ion-icon></i></span>
-        <input type="text" required>
-        <label>Username</label>
+  <div class="page-container">
+  
+
+    <!-- Main Content -->
+    <main class="auth-main">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <h2>Create Account</h2>
+            <p>Join our community and start your wellness journey</p>
+          </div>
+          
+          <form class="auth-form" action="">
+            
+            
+            <div class="input-group">
+              <label for="email">Email</label>
+              <div class="input-wrapper">
+                <span class="input-icon"><i class="fa fa-envelope"></i></span>
+                <input type="email" id="email" placeholder="example@gmail.com" required>
+              </div>
+            </div>
+       
+            <div class="input-group">
+              <label for="password">Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon"><i class="fa fa-lock"></i></span>
+       
+                <input type="password" id="password" placeholder="•••••••" required>
+                <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                  <i class="fa fa-eye" id="password-eye"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label for="confirm-password">Confirm Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon"><i class="fa fa-lock"></i></span>
+                <input type="password" id="confirm-password" placeholder="•••••••" required>
+                <button type="button" class="password-toggle" onclick="togglePassword('confirm-password')">
+                  <i class="fa fa-eye" id="confirm-password-eye"></i>
+                </button>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn btn-gradient auth-btn">Create Account</button>
+            
+            <div class="auth-footer">
+              <p>Already have an account? <a href="index.html" class="auth-link">Sign In</a></p>
+            </div>
+          </form>
+        </div>
       </div>
-      <div class="input-box">
-        <span class="icon"><i class="fa fa-envelope"><ion-icon name="mail-unread"></ion-icon></i></span>
-        <input type="email" required>
-        <label>Email</label>
-      </div>
-      <div class="input-box">
-        <span class="icon"><i class="fa fa-lock"><ion-icon name="lock-closed"></ion-icon></i></span>
-        <input type="password" required>
-        <label>Password</label>
-      </div>
-      <button type="submit">Register</button>
-    </form>
+    </main>
   </div>
 
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+      function togglePassword(fieldId) {
+          const passwordField = document.getElementById(fieldId);
+          const eyeIcon = document.getElementById(fieldId + '-eye');
+          
+          if (passwordField.type === 'password') {
+              passwordField.type = 'text';
+              eyeIcon.classList.remove('fa-eye');
+              eyeIcon.classList.add('fa-eye-slash');
+          } else {
+              passwordField.type = 'password';
+              eyeIcon.classList.remove('fa-eye-slash');
+              eyeIcon.classList.add('fa-eye');
+          }
+      }
+  </script>
 
 </body>
 </html>
