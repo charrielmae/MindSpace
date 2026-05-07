@@ -9,40 +9,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/recommendation.css" />
+    <link rel="stylesheet" href="../css/navigation-header.css" />
   </head>
   <body>
     <div class="page-container">
-      <!-- Header -->
-      <header class="page-header">
-        <div class="header-left">
-          <div class="logo">
-            <span>MindSpace</span>
-          </div>
-        </div>
-        <div class="header-right">
-          <div class="user-info">
-            <div class="user-avatar">
-              <img
-                src="../images/user-avatar.png"
-                alt="User"
-                onerror="
-                  this.style.display = 'none';
-                  this.nextElementSibling.style.display = 'flex';
-                "
-              />
-              <div class="avatar-placeholder">CM</div>
-            </div>
-            <div class="user-details">
-              <div class="user-name">Charriel Mae M. Ayuban</div>
-              <div class="user-status">Active</div>
-            </div>
-          </div>
-          <button class="notification-btn">
-            <span class="notification-icon">🔔</span>
-            <span class="notification-badge">3</span>
-          </button>
-        </div>
-      </header>
+      <!-- Universal Navigation Header -->
+      <div id="navigation-header"></div>
 
       <!-- Main Content -->
       <main class="page-main">
@@ -125,18 +97,7 @@
                     <span class="nav-text">Crisis Hotline</span>
                   </a>
                 </li>
-                <li class="nav-item logout-item">
-                  <a href="#" class="nav-link logout-btn" onclick="handleLogout()">
-                    <span class="nav-icon"
-                      ><img
-                        src="../images/logout.png"
-                        alt="Logout"
-                        class="nav-icon-img"
-                    /></span>
-                    <span class="nav-text">Logout</span>
-                  </a>
-                </li>
-              </ul>
+                              </ul>
             </div>
           </nav>
         </aside>
@@ -237,10 +198,10 @@
                 <label for="priceFilter">Price Range</label>
                 <select id="priceFilter" class="filter-select">
                   <option value="">All Prices</option>
-                  <option value="0-50">$0 - $50</option>
-                  <option value="50-100">$50 - $100</option>
-                  <option value="100-150">$100 - $150</option>
-                  <option value="150+">$150+</option>
+                  <option value="0-50">₱0 - ₱50</option>
+                  <option value="50-100">₱50 - ₱100</option>
+                  <option value="100-150">₱100 - ₱150</option>
+                  <option value="150+">₱150+</option>
                 </select>
               </div>
             </div>
@@ -348,6 +309,15 @@
       </main>
     </div>
 
-    <script src="../javascript/recommendation.js" defer></script>
+    <script>
+  // Load navigation component
+  fetch('../components/navigation-header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('navigation-header').innerHTML = html;
+    })
+    .catch(error => console.error('Error loading navigation:', error));
+</script>
+<script src="../javascript/recommendation.js" defer></script>
   </body>
 </html>

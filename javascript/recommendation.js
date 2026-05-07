@@ -151,11 +151,11 @@ class RecommendationManager {
         id: 5,
         question: "What's your budget range per session?",
         options: [
-          "Under $50",
-          "$50-$100",
-          "$100-$150",
-          "$150-$200",
-          "Over $200",
+          "Under ₱50",
+          "₱50-₱100",
+          "₱100-₱150",
+          "₱150-₱200",
+          "Over ₱200",
         ],
       },
     ];
@@ -421,27 +421,28 @@ class RecommendationManager {
       }
 
       // Match by budget
-      if (budget.includes("Under $50")) {
-        matches =
-          matches && parseInt(therapist.price.replace(/[$,]/g, "")) <= 50;
-      } else if (budget.includes("$50-$100")) {
+      if (budget.includes("Under ₱50")) {
         matches =
           matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 50 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 100;
-      } else if (budget.includes("$100-$150")) {
+          parseInt(therapist.price.replace(/[₱,]/g, "")) <= 50;
+      } else if (budget.includes("₱50-₱100")) {
         matches =
           matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 100 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 150;
-      } else if (budget.includes("$150-$200")) {
+          parseInt(therapist.price.replace(/[₱,]/g, "")) > 50 &&
+          parseInt(therapist.price.replace(/[₱,]/g, "")) <= 100;
+      } else if (budget.includes("₱100-₱150")) {
         matches =
           matches &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) > 150 &&
-          parseInt(therapist.price.replace(/[$,]/g, "")) <= 200;
-      } else if (budget.includes("Over $200")) {
+          parseInt(therapist.price.replace(/[₱,]/g, "")) > 100 &&
+          parseInt(therapist.price.replace(/[₱,]/g, "")) <= 150;
+      } else if (budget.includes("₱150-₱200")) {
         matches =
-          matches && parseInt(therapist.price.replace(/[$,]/g, "")) > 200;
+          matches &&
+          parseInt(therapist.price.replace(/[₱,]/g, "")) > 150 &&
+          parseInt(therapist.price.replace(/[₱,]/g, "")) <= 200;
+      } else if (budget.includes("Over ₱200")) {
+        matches =
+          matches && parseInt(therapist.price.replace(/[₱,]/g, "")) > 200;
       }
 
       return matches;
@@ -550,7 +551,7 @@ class RecommendationManager {
         specialties: ["Anxiety Disorders", "Depression", "Stress Management"],
         description:
           "Specializing in cognitive behavioral therapy for anxiety and depression. 10+ years of experience helping adults overcome mental health challenges.",
-        price: "$120",
+        price: "₱120",
         rating: 4.8,
         reviews: 127,
         therapyType: "cbt",
@@ -569,7 +570,7 @@ class RecommendationManager {
         ],
         description:
           "Board-certified psychiatrist specializing in medication management and integrated treatment approaches for mood disorders.",
-        price: "$200",
+        price: "₱200",
         rating: 4.9,
         reviews: 89,
         therapyType: "medication",
@@ -584,7 +585,7 @@ class RecommendationManager {
         specialties: ["Relationships", "Family Therapy", "Couples Counseling"],
         description:
           "Helping individuals and couples improve their relationships and communication. Specialized in family systems therapy.",
-        price: "$95",
+        price: "₱95",
         rating: 4.7,
         reviews: 156,
         therapyType: "family",
@@ -599,7 +600,7 @@ class RecommendationManager {
         specialties: ["Trauma & PTSD", "Anxiety", "Depression"],
         description:
           "Expert in trauma-informed care and EMDR therapy. Helping individuals heal from past trauma and build resilience.",
-        price: "$150",
+        price: "₱150",
         rating: 4.8,
         reviews: 203,
         therapyType: "trauma",
@@ -614,7 +615,7 @@ class RecommendationManager {
         specialties: ["Addiction", "Stress Management", "Life Transitions"],
         description:
           "Compassionate therapist specializing in addiction recovery and life coaching. Holistic approach to mental wellness.",
-        price: "$85",
+        price: "₱85",
         rating: 4.6,
         reviews: 94,
         therapyType: "addiction",
@@ -629,7 +630,7 @@ class RecommendationManager {
         specialties: ["Relationships", "Depression", "Anxiety"],
         description:
           "Integrative approach combining cognitive behavioral therapy with mindfulness techniques. Specializing in adult relationships.",
-        price: "$110",
+        price: "₱110",
         rating: 4.7,
         reviews: 178,
         therapyType: "humanistic",

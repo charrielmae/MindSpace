@@ -9,13 +9,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/interests.css" />
+    <link rel="stylesheet" href="../css/navigation-header.css" />
   </head>
   <body>
     <div class="interests-container">
-      <header class="interests-header">
-        <button class="back-arrow">←</button>
-        
-      </header>
+      <!-- Universal Navigation Header -->
+      <div id="navigation-header"></div>
 
       <main class="interests-content">
         <h1>Welcome to MindSpace</h1>
@@ -50,6 +49,15 @@
       </main>
     </div>
 
-    <script src="../javascript/interests.js" defer></script>
+    <script>
+  // Load navigation component
+  fetch('../components/navigation-header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('navigation-header').innerHTML = html;
+    })
+    .catch(error => console.error('Error loading navigation:', error));
+</script>
+<script src="../javascript/interests.js" defer></script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 // Crisis Hotline Page JavaScript - MindSpace
+import { auth, supabase } from './supabase-config.js';
 
 class CrisisHotlineManager {
   constructor() {
@@ -47,10 +48,14 @@ class CrisisHotlineManager {
     window.location.href = href;
   }
 
-  handleLogout() {
+  async handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
-      localStorage.removeItem('mindspace_user');
-      window.location.href = 'landing.html';
+      const result = await auth.signOut();
+      if (result.success) {
+        window.location.href = 'landing.html';
+      } else {
+        this.showNotification('Logout failed. Please try again.', 'error');
+      }
     }
   }
 
@@ -175,7 +180,7 @@ class CrisisHotlineManager {
     }
   }
 
-  saveSafetyPlan() {
+  async saveSafetyPlan() {
     const safetyPlan = {
       warningSigns: document.getElementById('warningSigns')?.value || '',
       copingStrategies: document.getElementById('copingStrategies')?.value || '',
@@ -186,9 +191,28 @@ class CrisisHotlineManager {
     };
 
     try {
-      localStorage.setItem('mindspace_safety_plan', JSON.stringify(safetyPlan));
-      this.showNotification('Safety plan saved successfully!', 'success');
-      this.closeModal();
+      const userResult = await auth.getCurrentUser();
+      if (!userResult.success || !userResult.user) {
+        this.showNotification('Please log in to save safety plan', 'error');
+        return;
+      }
+
+      const { error } = await supabase
+        .from('user_safety_plans')
+        .upsert({
+          user_id: userResult.user.id,
+          ...safetyPlan
+        }, {
+          onConflict: 'user_id'
+        });
+
+      if (error) {
+        console.error('Error saving safety plan:', error);
+        this.showNotification('Error saving safety plan', 'error');
+      } else {
+        this.showNotification('Safety plan saved successfully!', 'success');
+        this.closeModal();
+      }
     } catch (error) {
       console.error('Error saving safety plan:', error);
       this.showNotification('Error saving safety plan', 'error');

@@ -23,8 +23,9 @@
         </div>
         <div class="header-right">
           <div class="user-info">
-            <div class="user-avatar">
+            <div class="user-avatar" onclick="toggleUserDropdown()">
               <img
+                id="userAvatarImg"
                 src="../images/user-avatar.png"
                 alt="User"
                 onerror="
@@ -32,11 +33,18 @@
                   this.nextElementSibling.style.display = 'flex';
                 "
               />
-              <div class="avatar-placeholder">CM</div>
+              <div id="userAvatarPlaceholder" class="avatar-placeholder">CM</div>
             </div>
             <div class="user-details">
-              <div class="user-name">Charriel Mae M. Ayuban</div>
-              <div class="user-status">Active</div>
+              <div id="userName" class="user-name">Loading...</div>
+            </div>
+          </div>
+          
+          <!-- User Dropdown Menu -->
+          <div id="userDropdown" class="user-dropdown">
+            <div class="dropdown-item" onclick="handleLogout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
             </div>
           </div>
           <button class="notification-btn">
@@ -126,18 +134,7 @@
                     <span class="nav-text">Crisis Hotline</span>
                   </a>
                 </li>
-                <li class="nav-item logout-item">
-                  <a href="#" class="nav-link logout-btn" onclick="handleLogout()">
-                    <span class="nav-icon"
-                      ><img
-                        src="../images/logout.png"
-                        alt="Logout"
-                        class="nav-icon-img"
-                    /></span>
-                    <span class="nav-text">Logout</span>
-                  </a>
-                </li>
-              </ul>
+                              </ul>
             </div>
           </nav>
         </aside>
@@ -147,7 +144,7 @@
           <!-- Welcome Section -->
           <section class="welcome-section">
             <div class="welcome-content">
-              <h1>Welcome back, Charriel!</h1>
+              <h1 id="welcomeMessage">Welcome back, User!</h1>
               <p>
                 How are you feeling today? Let's check in on your mental
                 wellness journey.
@@ -345,6 +342,8 @@
       </div>
     </div>
 
-    <script src="../javascript/dashboard.js" defer></script>
+    <!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="../javascript/dashboard.js"></script>
   </body>
 </html>

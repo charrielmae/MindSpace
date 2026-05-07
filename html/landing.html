@@ -9,7 +9,10 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/landing.css" />
-    <script src="../javascript/script.js" defer></script>
+    <link rel="stylesheet" href="../css/auth.css" />
+    <!-- Supabase CDN for module resolution -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module" src="../javascript/auth.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -20,8 +23,8 @@
         </div>
         
         <div class="nav-buttons">
-          <button class="btn btn-outline">Sign up</button>
-          <button class="btn btn-primary">Log in</button>
+          <button class="btn btn-outline" id="registerBtn">Sign up</button>
+          <button class="btn btn-primary" id="loginBtn">Log in</button>
         </div>
       </nav>
 
@@ -34,7 +37,7 @@
               your unique needs. Start your wellness journey today with
               compassionate care and evidence-based treatments.
             </p>
-            <button class="btn btn-gradient">Get Started</button>
+            <button class="btn btn-gradient" id="getStartedBtn">Get Started</button>
           </div>
           <div class="hero-illustration">
             <div class="illustration-container">
@@ -51,6 +54,62 @@
           </div>
         </div>
       </main>
+
+      <!-- Login Modal -->
+      <div class="modal" id="loginModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Welcome Back</h2>
+            <span class="close-modal">&times;</span>
+          </div>
+          <form id="loginForm" class="auth-form">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <input type="email" id="loginEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" id="loginSubmit" class="btn btn-primary btn-full">Log in</button>
+          </form>
+          <div class="modal-footer">
+            <p>Don't have an account? <a href="#" id="switchToRegister">Sign up</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Modal -->
+      <div class="modal" id="registerModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Create Account</h2>
+            <span class="close-modal">&times;</span>
+          </div>
+          <form id="registerForm" class="auth-form">
+            <div class="form-group">
+              <label for="registerName">Full Name</label>
+              <input type="text" id="registerName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="registerEmail">Email</label>
+              <input type="email" id="registerEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+              <label for="registerPassword">Password</label>
+              <input type="password" id="registerPassword" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+              <label for="registerConfirmPassword">Confirm Password</label>
+              <input type="password" id="registerConfirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" id="registerSubmit" class="btn btn-primary btn-full">Sign up</button>
+          </form>
+          <div class="modal-footer">
+            <p>Already have an account? <a href="#" id="switchToLogin">Log in</a></p>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

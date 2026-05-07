@@ -61,6 +61,13 @@ body {
   height: 45px;
   border-radius: 50%;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
 }
 
 .user-avatar img {
@@ -126,11 +133,188 @@ body {
   text-align: center;
 }
 
+/* User Dropdown Menu */
+.user-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 107, 157, 0.1);
+  min-width: 180px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Make header-right relative for dropdown positioning */
+.header-right {
+  position: relative;
+}
+
+.user-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 107, 157, 0.1);
+}
+
+.dropdown-item i {
+  color: #ff6b9d;
+  font-size: 1rem;
+  width: 16px;
+}
+
+.dropdown-item span {
+  color: #2d3748;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
 /* Main Layout */
 .dashboard-main {
   display: flex;
   flex: 1;
   overflow: hidden;
+}
+
+/* AI Insight Modal */
+.ai-insight-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+.ai-insight-modal.show {
+  display: block;
+}
+
+.ai-insight-modal-content {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+}
+
+.ai-insight-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #2d3748;
+}
+
+.ai-sparkle-icon {
+  color: #ff6b9d;
+  font-size: 1.5rem;
+}
+
+.ai-insight-header h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.ai-insight-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.ai-insight-body p {
+  margin: 0 0 15px 0;
+  line-height: 1.6;
+  color: #4a5568;
+}
+
+.ai-insight-body ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.ai-insight-body li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #2d3748;
+}
+
+.ai-insight-body li::marker {
+  color: #ff6b9d;
+  font-weight: bold;
+}
+
+.close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close-button:hover {
+  background: rgba(255, 107, 157, 0.1);
+}
+
+.analyze-health-button {
+  background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.analyze-health-button:hover {
+  background: linear-gradient(135deg, #e55a87, #ff6b9d);
+  transform: translateY(-2px);
+}
+
+.analyze-health-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* Sidebar */

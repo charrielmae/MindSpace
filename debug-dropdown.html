@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Dropdown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f7 50%, #ffe0e6 100%);
+        }
+        .debug-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+            box-shadow: 0 2px 10px rgba(255, 107, 157, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .header-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-avatar {
+            position: relative;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+            color: white;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+        }
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+        }
+        .user-details {
+            text-align: right;
+        }
+        .user-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #2d3748;
+        }
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.1);
+            min-width: 180px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+        }
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        .dropdown-item:hover {
+            background: rgba(255, 107, 157, 0.1);
+        }
+        .dropdown-item i {
+            color: #ff6b9d;
+            font-size: 1rem;
+            width: 16px;
+        }
+        .dropdown-item span {
+            color: #2d3748;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        .debug-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>Dropdown Debug Test</h1>
+        
+        <div class="debug-info" id="debugInfo">
+            <strong>Debug Info:</strong><br>
+            Click on the avatar below to test dropdown functionality.<br>
+            Check browser console for debug messages.
+        </div>
+
+        <div class="mock-header">
+            <div class="header-left">
+                <div class="logo">
+                    <span>MindSpace</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-avatar" onclick="toggleUserDropdown()">
+                        CM
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name">Charriel Mae M. Ayuban</div>
+                    </div>
+                </div>
+                
+                <!-- User Dropdown Menu -->
+                <div id="userDropdown" class="user-dropdown">
+                    <div class="dropdown-item" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button class="test-button" onclick="toggleUserDropdown()">Toggle Dropdown (JavaScript)</button>
+            <button class="test-button" onclick="checkElements()">Check Elements</button>
+            <button class="test-button" onclick="clearDebug()">Clear Debug</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleUserDropdown() {
+            console.log('=== toggleUserDropdown called ===');
+            const dropdown = document.getElementById("userDropdown");
+            console.log('Dropdown element found:', !!dropdown);
+            
+            if (dropdown) {
+                const isVisible = dropdown.classList.contains("show");
+                console.log('Dropdown currently visible:', isVisible);
+                console.log('Dropdown classes:', dropdown.className);
+                
+                if (isVisible) {
+                    dropdown.classList.remove("show");
+                    console.log('Dropdown hidden');
+                    updateDebug('Dropdown hidden');
+                } else {
+                    dropdown.classList.add("show");
+                    console.log('Dropdown shown');
+                    updateDebug('Dropdown shown');
+                }
+            } else {
+                console.error('Dropdown element not found!');
+                updateDebug('ERROR: Dropdown element not found');
+            }
+        }
+
+        function handleLogout() {
+            console.log('=== handleLogout called ===');
+            updateDebug('Logout clicked - would redirect to login');
+            
+            // Hide dropdown
+            const dropdown = document.getElementById("userDropdown");
+            if (dropdown) {
+                dropdown.classList.remove("show");
+            }
+        }
+
+        function checkElements() {
+            const dropdown = document.getElementById("userDropdown");
+            const avatar = document.querySelector(".user-avatar");
+            
+            const debugInfo = `
+                Elements Check:
+                - Dropdown element: ${dropdown ? 'FOUND' : 'NOT FOUND'}
+                - Avatar element: ${avatar ? 'FOUND' : 'NOT FOUND'}
+                - Dropdown classes: ${dropdown ? dropdown.className : 'N/A'}
+                - Dropdown visible: ${dropdown ? dropdown.classList.contains('show') : 'N/A'}
+            `;
+            
+            updateDebug(debugInfo);
+        }
+
+        function updateDebug(message) {
+            const debugDiv = document.getElementById('debugInfo');
+            const timestamp = new Date().toLocaleTimeString();
+            debugDiv.innerHTML = `<strong>[${timestamp}]</strong> ${message}`;
+        }
+
+        function clearDebug() {
+            document.getElementById('debugInfo').innerHTML = '<strong>Debug cleared</strong>';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById("userDropdown");
+            const avatar = document.querySelector(".user-avatar");
+            
+            if (dropdown && !avatar.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove("show");
+                updateDebug('Dropdown closed (clicked outside)');
+            }
+        });
+
+        // Initial check
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - running initial check');
+            checkElements();
+        });
+    </script>
+</body>
+</html>

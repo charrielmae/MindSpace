@@ -1,0 +1,182 @@
+<!-- Universal Navigation Header Component -->
+<header class="page-header">
+  <div class="header-left">
+    <div class="logo">
+      <span>MindSpace</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="user-info">
+      <div class="user-avatar" onclick="toggleUserDropdown()">
+        <img
+          id="userAvatarImg"
+          src="../images/user-avatar.png"
+          alt="User"
+          onerror="
+            this.style.display = 'none';
+            this.nextElementSibling.style.display = 'flex';
+          "
+        />
+        <div id="userAvatarPlaceholder" class="avatar-placeholder">LD</div>
+      </div>
+      <div class="user-details">
+        <div id="userName" class="user-name">Loading...</div>
+      </div>
+    </div>
+    
+    <!-- User Dropdown Menu -->
+    <div id="userDropdown" class="user-dropdown">
+      <div class="dropdown-item" onclick="navigateToPage('dashboard.html')">
+        <i class="fas fa-tachometer-alt"></i>
+        <span>Dashboard</span>
+      </div>
+      <div class="dropdown-item" onclick="navigateToPage('daily-mood.html')">
+        <i class="fas fa-smile"></i>
+        <span>Daily Mood</span>
+      </div>
+      <div class="dropdown-item" onclick="navigateToPage('mental-health-info.html')">
+        <i class="fas fa-brain"></i>
+        <span>Mental Health Info</span>
+      </div>
+      <div class="dropdown-item" onclick="navigateToPage('wellness-activities.html')">
+        <i class="fas fa-heart"></i>
+        <span>Wellness Activities</span>
+      </div>
+      <div class="dropdown-item dropdown-divider"></div>
+      <div class="dropdown-item" onclick="handleLogout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </div>
+    </div>
+    
+    <button class="notification-btn" onclick="showNotifications()">
+      <span class="notification-icon">🔔</span>
+      <span class="notification-badge" id="notificationBadge">0</span>
+    </button>
+  </div>
+</header>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+  // Initialize Supabase
+  const { createClient } = window.supabase;
+  const supabase = createClient('https://wknutsngiknvzvajslgo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbnV0c25naWtudnp2YWpzbGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTYyMjUsImV4cCI6MjA5MzczMjIyNX0.vi1FFJ7q-Fv0-mslyd6JD5FgDZtoR7T45wmvl37kJ30');
+
+  // Authentication functions
+  const auth = {
+    async getCurrentUser() {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        
+        if (error) {
+          console.error('Supabase get user error:', error);
+          return { success: false, error: error.message };
+        }
+        
+        return { success: true, user };
+      } catch (error) {
+        console.error('Get current user error:', error);
+        return { success: false, error: error.message };
+      }
+    },
+
+    async signOut() {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        return { success: true };
+      } catch (error) {
+        console.error('Logout error:', error);
+        return { success: false, error: error.message };
+      }
+    }
+  };
+
+  // User data management
+  let currentUser = null;
+
+  function getInitials(name) {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .join('')
+      .slice(0, 2);
+  }
+
+  async function loadUserData() {
+    try {
+      const result = await auth.getCurrentUser();
+      if (result.success && result.user) {
+        const userMetadata = result.user.user_metadata || {};
+        currentUser = {
+          id: result.user.id,
+          name: userMetadata.full_name || userMetadata.name || 'User',
+          email: result.user.email,
+          initials: getInitials(userMetadata.full_name || userMetadata.name || 'User')
+        };
+        updateUserInterface();
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+    }
+  }
+
+  function updateUserInterface() {
+    if (!currentUser) return;
+
+    // Update user name
+    const userNameElement = document.getElementById("userName");
+    if (userNameElement) {
+      userNameElement.textContent = currentUser.name;
+    }
+
+    // Update avatar placeholder with initials
+    const avatarPlaceholder = document.getElementById("userAvatarPlaceholder");
+    if (avatarPlaceholder) {
+      avatarPlaceholder.textContent = currentUser.initials;
+    }
+  }
+
+  // Dropdown functions
+  function toggleUserDropdown() {
+    const dropdown = document.getElementById("userDropdown");
+    if (dropdown) {
+      dropdown.classList.toggle("show");
+    }
+  }
+
+  function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      auth.signOut().then(result => {
+        if (result.success) {
+          window.location.href = 'index.html';
+        } else {
+          alert('Logout failed. Please try again.');
+        }
+      });
+    }
+  }
+
+  function navigateToPage(page) {
+    window.location.href = page;
+  }
+
+  function showNotifications() {
+    alert('No new notifications');
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById("userDropdown");
+    const avatar = document.querySelector(".user-avatar");
+    
+    if (dropdown && !avatar.contains(event.target) && !dropdown.contains(event.target)) {
+      dropdown.classList.remove("show");
+    }
+  });
+
+  // Load user data when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    loadUserData();
+  });
+</script>

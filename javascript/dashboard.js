@@ -1,4 +1,37 @@
 // Dashboard JavaScript - MindSpace
+// Initialize Supabase directly
+const { createClient } = window.supabase;
+const supabase = createClient('https://wknutsngiknvzvajslgo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbnV0c25naWtudnp2YWpzbGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTYyMjUsImV4cCI6MjA5MzczMjIyNX0.vi1FFJ7q-Fv0-mslyd6JD5FgDZtoR7T45wmvl37kJ30');
+
+// Authentication functions
+const auth = {
+  async getCurrentUser() {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      
+      if (error) {
+        console.error('Supabase get user error:', error);
+        return { success: false, error: error.message };
+      }
+      
+      return { success: true, user };
+    } catch (error) {
+      console.error('Get current user error:', error);
+      return { success: false, error: error.message };
+    }
+  },
+
+  async signOut() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      return { success: true };
+    } catch (error) {
+      console.error('Logout error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+};
 
 class DashboardManager {
   constructor() {
@@ -48,47 +81,76 @@ class DashboardManager {
     }
   }
 
-  handleLogout() {
+  async handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
-      // Clear user data
-      localStorage.removeItem('mindspace_user');
-      
-      // Redirect to landing page
+      // Sign out from Supabase
+      const result = await auth.signOut();
+      if (result.success) {
+        // Redirect to landing page
+        window.location.href = 'landing.html';
+      } else {
+        this.showNotification('Logout failed. Please try again.', 'error');
+      }
+    }
+  }
+
+  async loadUserData() {
+    try {
+      const result = await auth.getCurrentUser();
+      if (result.success && result.user) {
+        // Get user metadata from Supabase
+        const userMetadata = result.user.user_metadata || {};
+        this.currentUser = {
+          id: result.user.id,
+          name: userMetadata.full_name || userMetadata.name || 'User',
+          email: result.user.email,
+          initials: this.getInitials(userMetadata.full_name || userMetadata.name || 'User'),
+          status: "Active",
+          avatar: null,
+        };
+        this.updateUserInterface();
+        
+        // Trigger automatic AI analysis on load
+        setTimeout(() => {
+          this.updateAIInsights();
+        }, 2000);
+      } else {
+        // Redirect to login if no user found
+        window.location.href = 'landing.html';
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+      // Redirect to login on error
       window.location.href = 'landing.html';
     }
   }
 
-  loadUserData() {
-    try {
-      const userData = localStorage.getItem("mindspace_user");
-      if (userData) {
-        this.currentUser = JSON.parse(userData);
-        this.updateUserInterface();
-      } else {
-        // Set default user data
-        this.currentUser = {
-          name: "John Doe",
-          initials: "JD",
-          status: "Active",
-          avatar: null,
-        };
-      }
-    } catch (error) {
-      console.error("Error loading user data:", error);
-    }
+  getInitials(name) {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .join('')
+      .slice(0, 2);
   }
 
   updateUserInterface() {
     if (!this.currentUser) return;
 
     // Update user name
-    const userNameElements = document.querySelectorAll(".user-name");
-    userNameElements.forEach((element) => {
-      element.textContent = this.currentUser.name;
-    });
+    const userNameElement = document.getElementById("userName");
+    if (userNameElement) {
+      userNameElement.textContent = this.currentUser.name;
+    }
 
-    // Update avatar
-    const avatarPlaceholder = document.querySelector(".avatar-placeholder");
+    // Update welcome message
+    const welcomeElement = document.getElementById("welcomeMessage");
+    if (welcomeElement) {
+      const firstName = this.currentUser.name.split(' ')[0];
+      welcomeElement.textContent = `Welcome back, ${firstName}!`;
+    }
+
+    // Update avatar placeholder with initials
+    const avatarPlaceholder = document.getElementById("userAvatarPlaceholder");
     if (avatarPlaceholder) {
       avatarPlaceholder.textContent = this.currentUser.initials;
     }
@@ -149,29 +211,35 @@ class DashboardManager {
     this.showMoodFeedback(mood);
   }
 
-  saveMoodEntry(mood) {
+  async saveMoodEntry(mood) {
     try {
       const moodEntry = {
+        user_id: this.currentUser.id,
         mood: mood,
-        timestamp: new Date().toISOString(),
-        date: new Date().toLocaleDateString(),
+        notes: `Mood recorded: ${mood}`,
+        date: new Date().toISOString().split('T')[0], // Format as YYYY-MM-DD
       };
 
-      // Get existing mood entries
-      let moodEntries = JSON.parse(
-        localStorage.getItem("moodspace_moods") || "[]",
-      );
-      moodEntries.push(moodEntry);
+      // Save to Supabase daily_moods table
+      const { data, error } = await supabase
+        .from('daily_moods')
+        .insert([moodEntry]);
 
-      // Keep only last 30 entries
-      if (moodEntries.length > 30) {
-        moodEntries = moodEntries.slice(-30);
+      if (error) {
+        console.error('Error saving mood entry:', error);
+        this.showNotification('Failed to save mood entry', 'error');
+      } else {
+        console.log('Mood entry saved:', moodEntry);
+        this.showNotification('Mood saved successfully!', 'success');
+        
+        // Trigger automatic AI insight update after mood save
+        setTimeout(() => {
+          this.updateAIInsights();
+        }, 1000);
       }
-
-      localStorage.setItem("moodspace_moods", JSON.stringify(moodEntries));
-      console.log("Mood entry saved:", moodEntry);
     } catch (error) {
-      console.error("Error saving mood entry:", error);
+      console.error('Error saving mood entry:', error);
+      this.showNotification('Failed to save mood entry', 'error');
     }
   }
 
@@ -456,10 +524,13 @@ class DashboardManager {
     this.showNotification("Dashboard refreshed", "success");
   }
 
-  logout() {
-    localStorage.removeItem("moodspace_user");
-    localStorage.removeItem("moodspace_moods");
-    window.location.href = "landing.html";
+  async logout() {
+    const result = await auth.signOut();
+    if (result.success) {
+      window.location.href = "landing.html";
+    } else {
+      this.showNotification('Logout failed. Please try again.', 'error');
+    }
   }
 
   initializeAIModal() {
@@ -504,7 +575,7 @@ class DashboardManager {
     try {
       const recommendation = await this.getAIRecommendation();
       if (recommendationEl) {
-        recommendationEl.innerHTML = recommendation;
+        this.updateAIInsightDisplay(recommendation);
       }
     } catch (error) {
       console.error('AI analysis failed:', error);
@@ -549,7 +620,8 @@ class DashboardManager {
       if (!response.ok) throw new Error('API request failed');
       
       const data = await response.json();
-      return this.formatAIResponse(data.candidates[0].content.parts[0].text);
+      const formattedResponse = this.formatAIResponse(data.candidates[0].content.parts[0].text);
+      return formattedResponse;
       
     } catch (error) {
       console.error('Gemini AI API error:', error);
@@ -561,20 +633,91 @@ class DashboardManager {
     }
   }
 
-  getRecentMoodData() {
+  async getRecentMoodData() {
     try {
-      const moods = JSON.parse(localStorage.getItem('moodspace_moods') || '[]');
-      return moods.slice(-7);
-    } catch {
+      const { data, error } = await supabase
+        .from('daily_moods')
+        .select('*')
+        .eq('user_id', this.currentUser.id)
+        .order('date', { ascending: false })
+        .limit(30); // Get last 30 days for better AI analysis
+
+      if (error) {
+        console.error('Error fetching mood data:', error);
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching mood data:', error);
       return [];
     }
   }
 
   buildAIPrompt(moodData) {
-    const moodSummary = moodData.map(m => `${m.mood} on ${new Date(m.timestamp).toLocaleDateString()}`).join(', ');
-    return `Based on my recent mood entries: ${moodSummary}. 
+    if (!moodData || moodData.length === 0) {
+      return "I'm new to mood tracking. Please provide general mental health recommendations for someone starting their wellness journey.";
+    }
+
+    const moodSummary = moodData.map(m => `${m.mood} on ${new Date(m.date).toLocaleDateString()}`).join(', ');
+    const moodScores = moodData.map(m => m.mood_score || this.getMoodScore(m.mood));
+    const avgScore = moodScores.reduce((a, b) => a + b, 0) / moodScores.length;
+    const trend = this.calculateMoodTrend(moodScores);
+    
+    return `Based on my recent mood entries over the last ${moodData.length} days: ${moodSummary}. 
+    My average mood score is ${avgScore.toFixed(1)}/5 and my trend is ${trend}. 
     Please provide personalized mental health recommendations in a paragraph followed by 3-4 bullet points with specific actionable suggestions. 
-    Keep it encouraging and supportive.`;
+    Consider my mood patterns and provide targeted advice. Keep it encouraging and supportive.`;
+  }
+
+  getMoodScore(mood) {
+    const scores = {
+      'great': 5,
+      'good': 4,
+      'okay': 3,
+      'bad': 2,
+      'terrible': 1
+    };
+    return scores[mood] || 3;
+  }
+
+  calculateMoodTrend(scores) {
+    if (scores.length < 2) return 'stable';
+    
+    const recent = scores.slice(0, Math.floor(scores.length / 2));
+    const older = scores.slice(Math.floor(scores.length / 2));
+    
+    const recentAvg = recent.reduce((a, b) => a + b, 0) / recent.length;
+    const olderAvg = older.reduce((a, b) => a + b, 0) / older.length;
+    
+    if (recentAvg > olderAvg + 0.3) return 'improving';
+    if (recentAvg < olderAvg - 0.3) return 'declining';
+    return 'stable';
+  }
+
+  async updateAIInsights() {
+    if (!this.currentUser) return;
+    
+    try {
+      const moodData = await this.getRecentMoodData();
+      const prompt = this.buildAIPrompt(moodData);
+      
+      // Cache the insight
+      const { data, error } = await supabase
+        .from('ai_insights')
+        .insert([{
+          user_id: this.currentUser.id,
+          insight_text: prompt,
+          insight_type: 'mood_analysis',
+          mood_data: moodData
+        }]);
+        
+      if (error) {
+        console.error('Error caching AI insight:', error);
+      }
+    } catch (error) {
+      console.error('Error updating AI insights:', error);
+    }
   }
 
   formatAIResponse(response) {
@@ -592,6 +735,20 @@ class DashboardManager {
     return formatted || response;
   }
 
+  updateAIInsightDisplay(formattedText) {
+    const recommendationEl = document.getElementById('aiInsightRecommendation');
+    if (recommendationEl) {
+      recommendationEl.innerHTML = formattedText;
+      recommendationEl.classList.remove('loading');
+      
+      // Make sure modal is visible
+      const modal = document.getElementById('aiInsightModal');
+      if (modal) {
+        modal.style.display = 'block';
+      }
+    }
+  }
+
   getFallbackRecommendation(moodData) {
     return `<p>Based on your recent mood patterns, here are some personalized recommendations:</p>
     <ul>
@@ -602,6 +759,44 @@ class DashboardManager {
     </ul>`;
   }
 }
+
+// Global functions for dropdown
+function toggleUserDropdown() {
+  console.log('toggleUserDropdown called');
+  const dropdown = document.getElementById("userDropdown");
+  console.log('Dropdown element:', dropdown);
+  
+  if (dropdown) {
+    const isVisible = dropdown.classList.contains("show");
+    console.log('Dropdown currently visible:', isVisible);
+    
+    if (isVisible) {
+      dropdown.classList.remove("show");
+      console.log('Dropdown hidden');
+    } else {
+      dropdown.classList.add("show");
+      console.log('Dropdown shown');
+    }
+  } else {
+    console.error('Dropdown element not found!');
+  }
+}
+
+function handleLogout() {
+  if (window.dashboardManager) {
+    window.dashboardManager.handleLogout();
+  }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById("userDropdown");
+  const avatar = document.querySelector(".user-avatar");
+  
+  if (dropdown && !avatar.contains(event.target) && !dropdown.contains(event.target)) {
+    dropdown.classList.remove("show");
+  }
+});
 
 // Initialize dashboard when DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
