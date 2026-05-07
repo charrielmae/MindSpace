@@ -22,7 +22,7 @@
               <p>Sign in to continue your wellness journey</p>
             </div>
             
-            <form class="auth-form" action="">
+            <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
               <div class="input-group">
                 <label for="email">Email</label>
                 <div class="input-wrapper">
@@ -62,7 +62,11 @@
       </main>
     </div>
         
-    <script>
+    <!-- Supabase CDN for module resolution -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+        import { auth } from '../javascript/supabase-config.js';
+
         function togglePassword(fieldId) {
             const passwordField = document.getElementById(fieldId);
             const eyeIcon = document.getElementById(fieldId + '-eye');
@@ -77,6 +81,50 @@
                 eyeIcon.classList.add('fa-eye');
             }
         }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.querySelector('.auth-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+
+            try {
+                const result = await auth.signIn(email, password);
+                
+                if (result.success) {
+                    alert('Login successful!');
+                    window.location.href = '../html/dashboard.html';
+                } else {
+                    alert(result.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Set up form listener
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+        });
     </script>
         
 </body>

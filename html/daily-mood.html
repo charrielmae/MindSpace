@@ -9,40 +9,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/daily-mood.css" />
+    <link rel="stylesheet" href="../css/navigation-header.css" />
   </head>
   <body>
     <div class="page-container">
-      <!-- Header -->
-      <header class="page-header">
-        <div class="header-left">
-          <div class="logo">
-            <span>MindSpace</span>
-          </div>
-        </div>
-        <div class="header-right">
-          <div class="user-info">
-            <div class="user-avatar">
-              <img
-                src="../images/user-avatar.png"
-                alt="User"
-                onerror="
-                  this.style.display = 'none';
-                  this.nextElementSibling.style.display = 'flex';
-                "
-              />
-              <div class="avatar-placeholder">CM</div>
-            </div>
-            <div class="user-details">
-              <div class="user-name">Charriel Mae M. Ayuban</div>
-              <div class="user-status">Active</div>
-            </div>
-          </div>
-          <button class="notification-btn">
-            <span class="notification-icon">🔔</span>
-            <span class="notification-badge">3</span>
-          </button>
-        </div>
-      </header>
+      <!-- Universal Navigation Header -->
+      <div id="navigation-header"></div>
 
       <!-- Main Content -->
       <main class="page-main">
@@ -360,6 +332,15 @@
       </main>
     </div>
 
-    <script src="../javascript/daily-mood.js" defer></script>
+    <script>
+  // Load navigation component
+  fetch('../components/navigation-header.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('navigation-header').innerHTML = html;
+    })
+    .catch(error => console.error('Error loading navigation:', error));
+</script>
+<script src="../javascript/daily-mood.js" defer></script>
   </body>
 </html>
