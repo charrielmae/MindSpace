@@ -1,4 +1,5 @@
 // Interests Page JavaScript - MindSpace Medical & Self-diagnosis
+import { auth, supabase } from './supabase-config.js';
 
 class InterestsManager {
   constructor() {
@@ -193,39 +194,68 @@ class InterestsManager {
     }, 1000);
   }
 
-  saveInterests() {
+  async saveInterests() {
     try {
+      const userResult = await auth.getCurrentUser();
+      if (!userResult.success || !userResult.user) {
+        console.log('User not logged in, skipping save to database');
+        return;
+      }
+
       const interestsData = {
+        user_id: userResult.user.id,
         interests: Array.from(this.selectedInterests),
         timestamp: new Date().toISOString(),
         page: 'interests'
       };
       
-      localStorage.setItem('mindspace_interests', JSON.stringify(interestsData));
-      console.log('Interests saved to localStorage');
+      const { error } = await supabase
+        .from('user_interests')
+        .upsert(interestsData, {
+          onConflict: 'user_id'
+        });
+
+      if (error) {
+        console.error('Error saving interests:', error);
+        this.showErrorMessage('Unable to save your selections. Please try again.');
+      } else {
+        console.log('Interests saved to Supabase');
+      }
     } catch (error) {
       console.error('Error saving interests:', error);
       this.showErrorMessage('Unable to save your selections. Please try again.');
     }
   }
 
-  loadSavedInterests() {
+  async loadSavedInterests() {
     try {
-      const savedData = localStorage.getItem('mindspace_interests');
-      if (savedData) {
-        const data = JSON.parse(savedData);
-        const interests = data.interests || [];
-        
-        interests.forEach(interest => {
-          const item = document.querySelector(`[data-interest="${interest}"]`);
-          if (item) {
-            item.classList.add('selected');
-            this.selectedInterests.add(interest);
-          }
-        });
-        
-        this.updateNextButtonState();
-        console.log('Loaded saved interests:', interests);
+      const userResult = await auth.getCurrentUser();
+      if (userResult.success && userResult.user) {
+        const { data, error } = await supabase
+          .from('user_interests')
+          .select('interests')
+          .eq('user_id', userResult.user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error loading interests:', error);
+          return;
+        }
+
+        if (data && data.interests) {
+          const interests = data.interests;
+          
+          interests.forEach(interest => {
+            const item = document.querySelector(`[data-interest="${interest}"]`);
+            if (item) {
+              item.classList.add('selected');
+              this.selectedInterests.add(interest);
+            }
+          });
+          
+          this.updateNextButtonState();
+          console.log('Loaded saved interests:', interests);
+        }
       }
     } catch (error) {
       console.error('Error loading saved interests:', error);

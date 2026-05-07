@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Dashboard Auth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <style>
+        body {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Dashboard Authentication Test</h1>
+        
+        <div class="test-section">
+            <h2>User Profile Display</h2>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img id="userAvatarImg" src="images/user-avatar.png" alt="User" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                    <div id="userAvatarPlaceholder" class="avatar-placeholder">CM</div>
+                </div>
+                <div class="user-details">
+                    <div id="userName" class="user-name">Loading...</div>
+                    <div id="userStatus" class="user-status">Active</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Authentication Tests</h2>
+            <button class="test-button" onclick="testSupabaseConnection()">Test Supabase Connection</button>
+            <button class="test-button" onclick="testGetCurrentUser()">Test Get Current User</button>
+            <button class="test-button" onclick="testManualUserData()">Test Manual User Data</button>
+            <div id="testResults" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Manual Login Test</h2>
+            <p>If you're not logged in, you can test with a sample user:</p>
+            <button class="test-button" onclick="simulateUserData()">Simulate User Data</button>
+            <button class="test-button" onclick="clearUserData()">Clear User Data</button>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase
+        const { createClient } = window.supabase;
+        const supabase = createClient('https://wknutsngiknvzvajslgo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbnV0c25naWtudnp2YWpzbGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTYyMjUsImV4cCI6MjA5MzczMjIyNX0.vi1FFJ7q-Fv0-mslyd6JD5FgDZtoR7T45wmvl37kJ30');
+
+        // Authentication functions
+        const auth = {
+            async getCurrentUser() {
+                try {
+                    const { data: { user }, error } = await supabase.auth.getUser();
+                    
+                    if (error) {
+                        console.error('Supabase get user error:', error);
+                        return { success: false, error: error.message };
+                    }
+                    
+                    return { success: true, user };
+                } catch (error) {
+                    console.error('Get current user error:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+        };
+
+        function getInitials(name) {
+            return name
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase())
+                .join('')
+                .slice(0, 2);
+        }
+
+        function updateUserInterface(userData) {
+            if (!userData) return;
+
+            // Update user name
+            const userNameElement = document.getElementById("userName");
+            if (userNameElement) {
+                userNameElement.textContent = userData.name;
+            }
+
+            // Update avatar placeholder with initials
+            const avatarPlaceholder = document.getElementById("userAvatarPlaceholder");
+            if (avatarPlaceholder) {
+                avatarPlaceholder.textContent = userData.initials;
+            }
+
+            // Update user status
+            const userStatusElement = document.getElementById("userStatus");
+            if (userStatusElement) {
+                userStatusElement.textContent = userData.status;
+            }
+        }
+
+        async function testSupabaseConnection() {
+            const results = document.getElementById('testResults');
+            try {
+                // Test connection by checking session
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    results.textContent = `Connection Error: ${error.message}`;
+                } else {
+                    results.textContent = `Connection Successful!\nSession: ${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (e) {
+                results.textContent = `Connection Exception: ${e.message}`;
+            }
+        }
+
+        async function testGetCurrentUser() {
+            const results = document.getElementById('testResults');
+            try {
+                const result = await auth.getCurrentUser();
+                if (result.success && result.user) {
+                    const userMetadata = result.user.user_metadata || {};
+                    const userData = {
+                        name: userMetadata.full_name || userMetadata.name || 'User',
+                        initials: getInitials(userMetadata.full_name || userMetadata.name || 'User'),
+                        status: "Active"
+                    };
+                    
+                    updateUserInterface(userData);
+                    results.textContent = `User Data Loaded:\n${JSON.stringify(result.user, null, 2)}`;
+                } else {
+                    results.textContent = `No user logged in: ${result.error}`;
+                }
+            } catch (e) {
+                results.textContent = `Error: ${e.message}`;
+            }
+        }
+
+        function simulateUserData() {
+            const userData = {
+                name: "Charriel Mae M. Ayuban",
+                initials: "CM",
+                status: "Active"
+            };
+            
+            updateUserInterface(userData);
+            document.getElementById('testResults').textContent = `Simulated user data:\n${JSON.stringify(userData, null, 2)}`;
+        }
+
+        function clearUserData() {
+            updateUserInterface({
+                name: "Loading...",
+                initials: "LD",
+                status: "Active"
+            });
+            document.getElementById('testResults').textContent = "User data cleared";
+        }
+
+        function testManualUserData() {
+            const results = document.getElementById('testResults');
+            const testUser = {
+                id: "test-id",
+                user_metadata: {
+                    full_name: "Charriel Mae M. Ayuban",
+                    name: "Charriel Mae M. Ayuban"
+                },
+                email: "test@example.com"
+            };
+            
+            const userMetadata = testUser.user_metadata || {};
+            const userData = {
+                name: userMetadata.full_name || userMetadata.name || 'User',
+                initials: getInitials(userMetadata.full_name || userMetadata.name || 'User'),
+                status: "Active"
+            };
+            
+            updateUserInterface(userData);
+            results.textContent = `Manual test completed:\n${JSON.stringify(userData, null, 2)}`;
+        }
+
+        // Auto-test on load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded, checking user session...');
+            testGetCurrentUser();
+        });
+    </script>
+</body>
+</html>

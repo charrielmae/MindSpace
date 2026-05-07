@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Universal Navigation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/navigation-header.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f7 50%, #ffe0e6 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Universal Navigation Test</h1>
+        
+        <div class="test-section">
+            <h2>Navigation Component Test</h2>
+            <p>This page tests the universal navigation component that should work across all pages.</p>
+            <div id="navigation-container"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Functions</h2>
+            <button class="test-button" onclick="testNavigationLoad()">Test Navigation Load</button>
+            <button class="test-button" onclick="testUserData()">Test User Data</button>
+            <button class="test-button" onclick="testDropdown()">Test Dropdown</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+            <div id="testResults" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Expected Features</h2>
+            <ul>
+                <li>✅ User profile with initials and name from Supabase</li>
+                <li>✅ Clickable dropdown with logout functionality</li>
+                <li>✅ Navigation to other pages</li>
+                <li>✅ Notification badge</li>
+                <li>✅ Responsive design</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function testNavigationLoad() {
+            logAction('Testing navigation component load...');
+            
+            fetch('components/navigation-header.html')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('navigation-container').innerHTML = html;
+                    logAction('✅ Navigation component loaded successfully');
+                    
+                    // Test if dropdown functions exist
+                    setTimeout(() => {
+                        const dropdown = document.getElementById('userDropdown');
+                        const avatar = document.querySelector('.user-avatar');
+                        const userName = document.getElementById('userName');
+                        
+                        if (dropdown && avatar && userName) {
+                            logAction('✅ All navigation elements found');
+                        } else {
+                            logAction('❌ Missing navigation elements');
+                        }
+                    }, 500);
+                })
+                .catch(error => {
+                    logAction(`❌ Error loading navigation: ${error.message}`);
+                });
+        }
+
+        function testUserData() {
+            logAction('Testing user data simulation...');
+            
+            // Simulate user data loading
+            const mockUser = {
+                name: 'Charriel Mae M. Ayuban',
+                initials: 'CM',
+                email: 'test@example.com'
+            };
+            
+            // Update UI elements
+            const userName = document.getElementById('userName');
+            const avatarPlaceholder = document.getElementById('userAvatarPlaceholder');
+            
+            if (userName) userName.textContent = mockUser.name;
+            if (avatarPlaceholder) avatarPlaceholder.textContent = mockUser.initials;
+            
+            logAction('✅ User data simulation complete');
+        }
+
+        function testDropdown() {
+            logAction('Testing dropdown functionality...');
+            
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                const isVisible = dropdown.classList.contains('show');
+                logAction(`Dropdown currently: ${isVisible ? 'VISIBLE' : 'HIDDEN'}`);
+                
+                // Toggle dropdown
+                dropdown.classList.toggle('show');
+                logAction(`Dropdown toggled to: ${!isVisible ? 'VISIBLE' : 'HIDDEN'}`);
+            } else {
+                logAction('❌ Dropdown element not found');
+            }
+        }
+
+        function logAction(message) {
+            const results = document.getElementById('testResults');
+            const timestamp = new Date().toLocaleTimeString();
+            results.textContent = `[${timestamp}] ${message}`;
+        }
+
+        function clearResults() {
+            document.getElementById('testResults').textContent = '';
+        }
+
+        // Initialize test on load
+        window.addEventListener('DOMContentLoaded', function() {
+            testNavigationLoad();
+        });
+    </script>
+</body>
+</html>

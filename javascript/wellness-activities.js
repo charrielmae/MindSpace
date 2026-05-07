@@ -1,4 +1,5 @@
 // Wellness Activities Page JavaScript - MindSpace
+import { auth, supabase } from './supabase-config.js';
 
 class WellnessActivitiesManager {
   constructor() {
@@ -21,6 +22,7 @@ class WellnessActivitiesManager {
   }
 
   init() {
+    this.loadProgress();
     this.bindEvents();
     this.loadActivities();
     this.renderActivities();
@@ -110,10 +112,14 @@ class WellnessActivitiesManager {
     window.location.href = href;
   }
 
-  handleLogout() {
+  async handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
-      localStorage.removeItem('mindspace_user');
-      window.location.href = 'landing.html';
+      const result = await auth.signOut();
+      if (result.success) {
+        window.location.href = 'landing.html';
+      } else {
+        this.showNotification('Logout failed. Please try again.', 'error');
+      }
     }
   }
 
@@ -533,21 +539,65 @@ class WellnessActivitiesManager {
     this.currentTimer = timerInterval;
   }
 
-  completeActivity(activityId) {
+  async completeActivity(activityId) {
     const activity = this.activities.find((a) => a.id === activityId);
     if (!activity) return;
 
-    // Update streak (simplified logic)
-    const today = new Date().toDateString();
-    const lastActivity = localStorage.getItem("lastActivityDate");
+    try {
+      // Get current user
+      const userResult = await auth.getCurrentUser();
+      if (!userResult.success || !userResult.user) {
+        this.showNotification('Please log in to track progress', 'error');
+        return;
+      }
 
-    if (lastActivity !== today) {
-      this.userProgress.streak++;
-      localStorage.setItem("lastActivityDate", today);
+      // Update streak (simplified logic)
+      const today = new Date().toDateString();
+      
+      // Check last activity from Supabase
+      const { data: lastActivityData, error: lastActivityError } = await supabase
+        .from('user_activities')
+        .select('completed_at')
+        .eq('user_id', userResult.user.id)
+        .order('completed_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      let shouldIncrementStreak = true;
+      if (!lastActivityError && lastActivityData) {
+        const lastActivityDate = new Date(lastActivityData.completed_at).toDateString();
+        if (lastActivityDate === today) {
+          shouldIncrementStreak = false;
+        }
+      }
+
+      if (shouldIncrementStreak) {
+        this.userProgress.streak++;
+      }
+
+      // Save activity completion to Supabase
+      const { error: activityError } = await supabase
+        .from('user_activities')
+        .insert([{
+          user_id: userResult.user.id,
+          activity_id: activityId,
+          activity_title: activity.title,
+          duration: activity.duration,
+          category: activity.category,
+          completed_at: new Date().toISOString()
+        }]);
+
+      if (activityError) {
+        console.error('Error saving activity:', activityError);
+        this.showNotification('Failed to save activity progress', 'error');
+      } else {
+        this.updateProgressStats();
+        this.saveProgress();
+      }
+    } catch (error) {
+      console.error('Error completing activity:', error);
+      this.showNotification('Failed to complete activity', 'error');
     }
-
-    this.updateProgressStats();
-    this.saveProgress();
   }
 
   updateProgressStats() {
@@ -572,25 +622,51 @@ class WellnessActivitiesManager {
     });
   }
 
-  saveProgress() {
+  async saveProgress() {
     try {
-      localStorage.setItem(
-        "mindspace_wellness_progress",
-        JSON.stringify(this.userProgress),
-      );
+      const userResult = await auth.getCurrentUser();
+      if (userResult.success && userResult.user) {
+        const { error } = await supabase
+          .from('user_progress')
+          .upsert({
+            user_id: userResult.user.id,
+            streak: this.userProgress.streak,
+            total_minutes: this.userProgress.totalMinutes,
+            activities_completed: this.userProgress.activitiesCompleted,
+            favorite_category: this.userProgress.favoriteCategory,
+            updated_at: new Date().toISOString()
+          });
+
+        if (error) {
+          console.error('Error saving progress:', error);
+        }
+      }
     } catch (error) {
-      console.error("Error saving progress:", error);
+      console.error('Error saving progress:', error);
     }
   }
 
-  loadProgress() {
+  async loadProgress() {
     try {
-      const savedProgress = localStorage.getItem("mindspace_wellness_progress");
-      if (savedProgress) {
-        this.userProgress = JSON.parse(savedProgress);
+      const userResult = await auth.getCurrentUser();
+      if (userResult.success && userResult.user) {
+        const { data, error } = await supabase
+          .from('user_progress')
+          .select('*')
+          .eq('user_id', userResult.user.id)
+          .single();
+
+        if (data && !error) {
+          this.userProgress = {
+            streak: data.streak || 0,
+            totalMinutes: data.total_minutes || 0,
+            activitiesCompleted: data.activities_completed || 0,
+            favoriteCategory: data.favorite_category || 'Meditation',
+          };
+        }
       }
     } catch (error) {
-      console.error("Error loading progress:", error);
+      console.error('Error loading progress:', error);
     }
   }
 

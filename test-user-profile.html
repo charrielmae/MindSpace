@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test User Profile Display</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <style>
+        body {
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>User Profile Display Test</h1>
+        
+        <div class="test-section">
+            <h2>Test User Profile Elements</h2>
+            <div class="user-info">
+                <div class="user-avatar">
+                    <img id="userAvatarImg" src="images/user-avatar.png" alt="User" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                    <div id="userAvatarPlaceholder" class="avatar-placeholder">CM</div>
+                </div>
+                <div class="user-details">
+                    <div id="userName" class="user-name">Loading...</div>
+                    <div id="userStatus" class="user-status">Active</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Functions</h2>
+            <button class="test-button" onclick="testInitialsGeneration()">Test Initials Generation</button>
+            <button class="test-button" onclick="testUserProfileUpdate()">Test User Profile Update</button>
+            <button class="test-button" onclick="testWelcomeMessage()">Test Welcome Message</button>
+            <div id="testResults" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Manual Input Test</h2>
+            <input type="text" id="testName" placeholder="Enter full name" value="Charriel Mae M. Ayuban" style="width: 300px; padding: 8px; margin: 5px;">
+            <button class="test-button" onclick="updateWithCustomName()">Update with Custom Name</button>
+        </div>
+    </div>
+
+    <script>
+        // Test initials generation function
+        function getInitials(name) {
+            return name
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase())
+                .join('')
+                .slice(0, 2);
+        }
+
+        function testInitialsGeneration() {
+            const testNames = [
+                "Charriel Mae M. Ayuban",
+                "John Doe",
+                "Jane Smith",
+                "A",
+                "Very Long Name With Many Words"
+            ];
+
+            let results = "Initials Generation Test:\n";
+            testNames.forEach(name => {
+                const initials = getInitials(name);
+                results += `${name} -> "${initials}"\n`;
+            });
+
+            document.getElementById('testResults').textContent = results;
+        }
+
+        function testUserProfileUpdate() {
+            const testUser = {
+                name: "Charriel Mae M. Ayuban",
+                initials: getInitials("Charriel Mae M. Ayuban"),
+                status: "Active"
+            };
+
+            // Update user name
+            const userNameElement = document.getElementById("userName");
+            if (userNameElement) {
+                userNameElement.textContent = testUser.name;
+            }
+
+            // Update avatar placeholder with initials
+            const avatarPlaceholder = document.getElementById("userAvatarPlaceholder");
+            if (avatarPlaceholder) {
+                avatarPlaceholder.textContent = testUser.initials;
+            }
+
+            // Update user status
+            const userStatusElement = document.getElementById("userStatus");
+            if (userStatusElement) {
+                userStatusElement.textContent = testUser.status;
+            }
+
+            document.getElementById('testResults').textContent = `User profile updated:\nName: ${testUser.name}\nInitials: ${testUser.initials}\nStatus: ${testUser.status}`;
+        }
+
+        function testWelcomeMessage() {
+            const userName = "Charriel Mae M. Ayuban";
+            const firstName = userName.split(' ')[0];
+            const welcomeMessage = `Welcome back, ${firstName}!`;
+            
+            document.getElementById('testResults').textContent = `Welcome message test:\nFull name: ${userName}\nFirst name: ${firstName}\nWelcome message: ${welcomeMessage}`;
+        }
+
+        function updateWithCustomName() {
+            const customName = document.getElementById('testName').value;
+            if (!customName.trim()) {
+                alert('Please enter a name');
+                return;
+            }
+
+            const testUser = {
+                name: customName,
+                initials: getInitials(customName),
+                status: "Active"
+            };
+
+            // Update user name
+            const userNameElement = document.getElementById("userName");
+            if (userNameElement) {
+                userNameElement.textContent = testUser.name;
+            }
+
+            // Update avatar placeholder with initials
+            const avatarPlaceholder = document.getElementById("userAvatarPlaceholder");
+            if (avatarPlaceholder) {
+                avatarPlaceholder.textContent = testUser.initials;
+            }
+
+            document.getElementById('testResults').textContent = `Updated with custom name:\nName: ${testUser.name}\nInitials: ${testUser.initials}`;
+        }
+
+        // Initialize with default data
+        window.addEventListener('DOMContentLoaded', function() {
+            testUserProfileUpdate();
+        });
+    </script>
+</body>
+</html>

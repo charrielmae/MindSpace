@@ -6,7 +6,27 @@ class AuthManager {
     this.init();
   }
 
-  init() {
+  async init() {
+    // Initialize Supabase auth system
+    console.log('Initializing authentication system...');
+    
+    try {
+      const initResult = await auth.initializeAuth();
+      if (initResult.success) {
+        console.log('Auth system initialized successfully');
+        if (initResult.user) {
+          console.log('User already logged in:', initResult.user.email);
+          // User is already logged in, redirect to dashboard
+          window.location.href = 'html/dashboard.html';
+          return;
+        }
+      } else {
+        console.error('Auth initialization failed:', initResult.error);
+      }
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+    }
+    
     this.setupEventListeners();
     this.checkAuthState();
   }
@@ -156,7 +176,13 @@ class AuthManager {
       
       if (result.success) {
         console.log('Registration successful');
-        this.showNotification('Account created successfully! Please check your email.', 'success');
+        
+        if (result.needsConfirmation) {
+          this.showNotification('Account created successfully! Please check your email to confirm your account.', 'success');
+        } else {
+          this.showNotification('Account created successfully! You can now log in.', 'success');
+        }
+        
         // Clear form
         document.getElementById('registerForm').reset();
         setTimeout(() => {

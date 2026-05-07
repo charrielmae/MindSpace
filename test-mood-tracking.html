@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mood Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f7 50%, #ffe0e6 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .mood-options {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .mood-btn {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .mood-btn:hover {
+            background: #e55a87;
+            transform: translateY(-2px);
+        }
+        .mood-btn.selected {
+            background: #10b981;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .mood-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin: 10px 0;
+        }
+        .ai-insight {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Mood Tracking & AI Insights Test</h1>
+        
+        <div class="test-section">
+            <h2>Test Mood Tracking</h2>
+            <p>Click a mood to simulate mood entry:</p>
+            <div class="mood-options">
+                <button class="mood-btn" data-mood="great" onclick="testMoodEntry('great')">😊 Great</button>
+                <button class="mood-btn" data-mood="good" onclick="testMoodEntry('good')">🙂 Good</button>
+                <button class="mood-btn" data-mood="okay" onclick="testMoodEntry('okay')">😐 Okay</button>
+                <button class="mood-btn" data-mood="bad" onclick="testMoodEntry('bad')">😔 Bad</button>
+                <button class="mood-btn" data-mood="terrible" onclick="testMoodEntry('terrible')">😢 Terrible</button>
+            </div>
+            <div id="moodDisplay" class="mood-display">No mood selected</div>
+        </div>
+
+        <div class="test-section">
+            <h2>Database Operations</h2>
+            <button class="test-button" onclick="testSaveMood()">Test Save Mood to Database</button>
+            <button class="test-button" onclick="testFetchMoods()">Test Fetch Moods</button>
+            <button class="test-button" onclick="testAIInsights()">Test AI Insights</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+            <div id="testResults" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>AI Insight Preview</h2>
+            <div id="aiInsightPreview" class="ai-insight">
+                Click "Test AI Insights" to see personalized recommendations based on your mood data.
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Sample Data Generator</h2>
+            <p>Generate sample mood data for testing AI insights:</p>
+            <button class="test-button" onclick="generateSampleData()">Generate 7 Days of Sample Data</button>
+            <button class="test-button" onclick="clearMoodData()">Clear All Mood Data</button>
+        </div>
+    </div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase
+        const { createClient } = window.supabase;
+        const supabase = createClient('https://wknutsngiknvzvajslgo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbnV0c25naWtudnp2YWpzbGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTYyMjUsImV4cCI6MjA5MzczMjIyNX0.vi1FFJ7q-Fv0-mslyd6JD5FgDZtoR7T45wmvl37kJ30');
+
+        let selectedMood = null;
+        let currentUserId = 'test-user-id'; // This would come from auth in real app
+
+        function testMoodEntry(mood) {
+            // Remove previous selection
+            document.querySelectorAll('.mood-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selection to clicked button
+            document.querySelector(`[data-mood="${mood}"]`).classList.add('selected');
+            
+            selectedMood = mood;
+            document.getElementById('moodDisplay').textContent = `Selected mood: ${mood} (${getMoodEmoji(mood)})`;
+        }
+
+        function getMoodEmoji(mood) {
+            const emojis = {
+                'great': '😊',
+                'good': '🙂',
+                'okay': '😐',
+                'bad': '😔',
+                'terrible': '😢'
+            };
+            return emojis[mood] || '😐';
+        }
+
+        function getMoodScore(mood) {
+            const scores = {
+                'great': 5,
+                'good': 4,
+                'okay': 3,
+                'bad': 2,
+                'terrible': 1
+            };
+            return scores[mood] || 3;
+        }
+
+        async function testSaveMood() {
+            if (!selectedMood) {
+                alert('Please select a mood first');
+                return;
+            }
+
+            const results = document.getElementById('testResults');
+            try {
+                const moodEntry = {
+                    user_id: currentUserId,
+                    mood: selectedMood,
+                    notes: `Test mood entry: ${selectedMood}`,
+                    date: new Date().toISOString().split('T')[0]
+                };
+
+                const { data, error } = await supabase
+                    .from('daily_moods')
+                    .insert([moodEntry]);
+
+                if (error) {
+                    results.textContent = `Save Error: ${JSON.stringify(error, null, 2)}`;
+                } else {
+                    results.textContent = `Mood saved successfully!\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (e) {
+                results.textContent = `Save Exception: ${e.message}`;
+            }
+        }
+
+        async function testFetchMoods() {
+            const results = document.getElementById('testResults');
+            try {
+                const { data, error } = await supabase
+                    .from('daily_moods')
+                    .select('*')
+                    .eq('user_id', currentUserId)
+                    .order('date', { ascending: false })
+                    .limit(10);
+
+                if (error) {
+                    results.textContent = `Fetch Error: ${JSON.stringify(error, null, 2)}`;
+                } else {
+                    results.textContent = `Fetched ${data.length} mood entries:\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (e) {
+                results.textContent = `Fetch Exception: ${e.message}`;
+            }
+        }
+
+        async function testAIInsights() {
+            const results = document.getElementById('testResults');
+            const preview = document.getElementById('aiInsightPreview');
+            
+            try {
+                // Fetch mood data first
+                const { data: moodData, error: moodError } = await supabase
+                    .from('daily_moods')
+                    .select('*')
+                    .eq('user_id', currentUserId)
+                    .order('date', { ascending: false })
+                    .limit(30);
+
+                if (moodError) {
+                    results.textContent = `Mood fetch error: ${JSON.stringify(moodError, null, 2)}`;
+                    return;
+                }
+
+                if (!moodData || moodData.length === 0) {
+                    preview.textContent = 'No mood data available. Please add some mood entries first.';
+                    return;
+                }
+
+                // Build AI prompt
+                const moodSummary = moodData.map(m => `${m.mood} on ${new Date(m.date).toLocaleDateString()}`).join(', ');
+                const moodScores = moodData.map(m => getMoodScore(m.mood));
+                const avgScore = moodScores.reduce((a, b) => a + b, 0) / moodScores.length;
+                
+                const prompt = `Based on my recent mood entries over the last ${moodData.length} days: ${moodSummary}. 
+                My average mood score is ${avgScore.toFixed(1)}/5. 
+                Please provide personalized mental health recommendations in a paragraph followed by 3-4 bullet points with specific actionable suggestions. 
+                Consider my mood patterns and provide targeted advice. Keep it encouraging and supportive.`;
+
+                // Simulate AI response (in real app, this would call AI API)
+                const aiResponse = generateMockAIResponse(moodData, avgScore);
+                
+                preview.innerHTML = `<strong>AI Analysis:</strong><br>${aiResponse}`;
+                results.textContent = `AI Insight generated based on ${moodData.length} mood entries.\nAverage mood score: ${avgScore.toFixed(1)}/5`;
+
+            } catch (e) {
+                results.textContent = `AI Insight Exception: ${e.message}`;
+            }
+        }
+
+        function generateMockAIResponse(moodData, avgScore) {
+            const insights = [];
+            
+            if (avgScore >= 4) {
+                insights.push("You're doing great! Your mood patterns show positive mental health.");
+                insights.push("Keep maintaining your current self-care routine");
+                insights.push("Consider sharing your positive experiences with others");
+                insights.push("Continue activities that bring you joy");
+            } else if (avgScore >= 3) {
+                insights.push("You're maintaining a stable emotional state with room for growth.");
+                insights.push("Try incorporating more mindfulness practices into your daily routine");
+                insights.push("Consider regular exercise to boost mood");
+                insights.push("Schedule regular check-ins with yourself");
+            } else {
+                insights.push("I notice you've been facing some challenges lately.");
+                insights.push("Consider reaching out to a mental health professional");
+                insights.push("Practice self-compassion and patience with yourself");
+                insights.push("Focus on small, achievable daily goals");
+            }
+
+            return insights.join('<br>• ');
+        }
+
+        async function generateSampleData() {
+            const results = document.getElementById('testResults');
+            const moods = ['great', 'good', 'okay', 'bad', 'terrible'];
+            const sampleData = [];
+
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                
+                sampleData.push({
+                    user_id: currentUserId,
+                    mood: moods[Math.floor(Math.random() * moods.length)],
+                    notes: `Sample mood entry for ${date.toLocaleDateString()}`,
+                    date: date.toISOString().split('T')[0]
+                });
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('daily_moods')
+                    .insert(sampleData);
+
+                if (error) {
+                    results.textContent = `Sample data error: ${JSON.stringify(error, null, 2)}`;
+                } else {
+                    results.textContent = `Generated ${sampleData.length} sample mood entries successfully!`;
+                }
+            } catch (e) {
+                results.textContent = `Sample data exception: ${e.message}`;
+            }
+        }
+
+        async function clearMoodData() {
+            if (!confirm('Are you sure you want to clear all mood data?')) return;
+            
+            const results = document.getElementById('testResults');
+            try {
+                const { error } = await supabase
+                    .from('daily_moods')
+                    .delete()
+                    .eq('user_id', currentUserId);
+
+                if (error) {
+                    results.textContent = `Clear error: ${JSON.stringify(error, null, 2)}`;
+                } else {
+                    results.textContent = 'All mood data cleared successfully!';
+                    document.getElementById('aiInsightPreview').textContent = 'Click "Test AI Insights" to see personalized recommendations based on your mood data.';
+                }
+            } catch (e) {
+                results.textContent = `Clear exception: ${e.message}`;
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('testResults').textContent = '';
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('Mood tracking test page loaded');
+        });
+    </script>
+</body>
+</html>

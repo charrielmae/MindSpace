@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test User Dropdown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <style>
+        body {
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f7 50%, #ffe0e6 100%);
+            min-height: 100vh;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .mock-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.1);
+            box-shadow: 0 2px 10px rgba(255, 107, 157, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-button {
+            background: #ff6b9d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #e55a87;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>User Dropdown Test</h1>
+        
+        <div class="test-section">
+            <h2>Mock Header with Dropdown</h2>
+            <div class="mock-header">
+                <div class="header-left">
+                    <div class="logo">
+                        <span>MindSpace</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="user-avatar" onclick="toggleUserDropdown()">
+                            <div class="avatar-placeholder" style="display: flex;">CM</div>
+                        </div>
+                        <div class="user-details">
+                            <div class="user-name">Charriel Mae M. Ayuban</div>
+                        </div>
+                    </div>
+                    
+                    <!-- User Dropdown Menu -->
+                    <div id="userDropdown" class="user-dropdown">
+                        <div class="dropdown-item" onclick="handleLogout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </div>
+                    </div>
+                    
+                    <button class="notification-btn">
+                        <span class="notification-icon">🔔</span>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Test Functions</h2>
+            <button class="test-button" onclick="toggleUserDropdown()">Toggle Dropdown</button>
+            <button class="test-button" onclick="simulateLogout()">Simulate Logout</button>
+            <button class="test-button" onclick="checkDropdownState()">Check Dropdown State</button>
+            <div id="testResults" class="result"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Instructions</h2>
+            <ul>
+                <li>Click on the user avatar (CM) to toggle dropdown</li>
+                <li>Click outside the dropdown to close it</li>
+                <li>Click "Logout" in the dropdown to simulate logout</li>
+                <li>Test the hover effects and transitions</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById("userDropdown");
+            if (dropdown) {
+                const isVisible = dropdown.classList.contains("show");
+                
+                if (isVisible) {
+                    dropdown.classList.remove("show");
+                } else {
+                    dropdown.classList.add("show");
+                }
+                
+                logAction(`Dropdown ${isVisible ? 'hidden' : 'shown'}`);
+            }
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                logAction('Logout confirmed - would redirect to login page');
+                // Hide dropdown
+                const dropdown = document.getElementById("userDropdown");
+                if (dropdown) {
+                    dropdown.classList.remove("show");
+                }
+            } else {
+                logAction('Logout cancelled');
+            }
+        }
+
+        function checkDropdownState() {
+            const dropdown = document.getElementById("userDropdown");
+            const isVisible = dropdown ? dropdown.classList.contains("show") : false;
+            logAction(`Dropdown is currently: ${isVisible ? 'VISIBLE' : 'HIDDEN'}`);
+        }
+
+        function logAction(message) {
+            const results = document.getElementById('testResults');
+            const timestamp = new Date().toLocaleTimeString();
+            results.textContent = `[${timestamp}] ${message}`;
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById("userDropdown");
+            const avatar = document.querySelector(".user-avatar");
+            
+            if (dropdown && !avatar.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove("show");
+                logAction('Dropdown closed (clicked outside)');
+            }
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', function() {
+            logAction('Dropdown test page loaded');
+        });
+    </script>
+</body>
+</html>

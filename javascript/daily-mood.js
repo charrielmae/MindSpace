@@ -1,4 +1,5 @@
 // Daily Mood Page JavaScript - MindSpace
+import { auth, supabase } from './supabase-config.js';
 
 class DailyMoodManager {
   constructor() {
@@ -186,72 +187,132 @@ class DailyMoodManager {
     }
   }
 
-  saveTodayMood() {
+  async saveTodayMood() {
     if (!this.selectedMood) {
       this.showNotification("Please select your mood first", "error");
       return;
     }
 
-    const notes = document.getElementById("moodNotes").value;
-    const today = new Date().toISOString().split("T")[0];
+    try {
+      const userResult = await auth.getCurrentUser();
+      if (!userResult.success || !userResult.user) {
+        this.showNotification('Please log in to save mood', 'error');
+        return;
+      }
 
-    // Check if mood already exists for today
-    const existingIndex = this.moodHistory.findIndex(
-      (entry) => entry.date === today,
-    );
+      const notes = document.getElementById("moodNotes").value;
+      const today = new Date().toISOString().split("T")[0];
 
-    const moodEntry = {
-      date: today,
-      mood: this.selectedMood.mood,
-      value: this.selectedMood.value,
-      notes: notes,
-      influences: Array.from(this.selectedInfluences),
-      activities: Array.from(this.selectedActivities),
-      timestamp: new Date().toISOString(),
-    };
+      const moodEntry = {
+        user_id: userResult.user.id,
+        date: today,
+        mood: this.selectedMood.mood,
+        value: this.selectedMood.value,
+        notes: notes,
+        influences: Array.from(this.selectedInfluences),
+        activities: Array.from(this.selectedActivities),
+        timestamp: new Date().toISOString(),
+      };
 
-    if (existingIndex !== -1) {
-      this.moodHistory[existingIndex] = moodEntry;
-    } else {
-      this.moodHistory.push(moodEntry);
+      // Check if mood already exists for today
+      const { data: existingEntry, error: fetchError } = await supabase
+        .from('mood_entries')
+        .select('*')
+        .eq('user_id', userResult.user.id)
+        .eq('date', today)
+        .single();
+
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        console.error('Error checking existing mood:', fetchError);
+        this.showNotification('Error saving mood', 'error');
+        return;
+      }
+
+      let result;
+      if (existingEntry) {
+        // Update existing entry
+        const { error: updateError } = await supabase
+          .from('mood_entries')
+          .update(moodEntry)
+          .eq('id', existingEntry.id);
+        result = { error: updateError };
+      } else {
+        // Insert new entry
+        const { error: insertError } = await supabase
+          .from('mood_entries')
+          .insert([moodEntry]);
+        result = { error: insertError };
+      }
+
+      if (result.error) {
+        console.error('Error saving mood:', result.error);
+        this.showNotification('Failed to save mood', 'error');
+      } else {
+        // Update local array for UI
+        const existingIndex = this.moodHistory.findIndex(
+          (entry) => entry.date === today,
+        );
+        
+        const localEntry = { ...moodEntry, id: existingEntry?.id };
+        if (existingIndex !== -1) {
+          this.moodHistory[existingIndex] = localEntry;
+        } else {
+          this.moodHistory.push(localEntry);
+        }
+
+        // Update UI
+        this.renderMoodHistory();
+        this.updateStatistics();
+        this.updateChart();
+
+        this.showNotification("Mood saved successfully!", "success");
+        this.resetForm();
+      }
+    } catch (error) {
+      console.error('Error saving mood:', error);
+      this.showNotification('Failed to save mood', 'error');
     }
-
-    // Save to localStorage
-    this.saveMoodData();
-
-    // Update UI
-    this.renderMoodHistory();
-    this.updateStatistics();
-    this.updateChart();
-
-    // Show success message
-    this.showNotification("Mood saved successfully!", "success");
-
-    // Reset form
-    this.resetForm();
   }
 
-  skipToday() {
-    const today = new Date().toISOString().split("T")[0];
+  async skipToday() {
+    try {
+      const userResult = await auth.getCurrentUser();
+      if (!userResult.success || !userResult.user) {
+        this.showNotification('Please log in to skip mood', 'error');
+        return;
+      }
 
-    // Add skipped entry
-    const skipEntry = {
-      date: today,
-      mood: "skipped",
-      value: 0,
-      notes: "Skipped mood entry",
-      influences: [],
-      activities: [],
-      timestamp: new Date().toISOString(),
-    };
+      const today = new Date().toISOString().split("T")[0];
 
-    this.moodHistory.push(skipEntry);
-    this.saveMoodData();
-    this.renderMoodHistory();
-    this.updateStatistics();
+      const skipEntry = {
+        user_id: userResult.user.id,
+        date: today,
+        mood: "skipped",
+        value: 0,
+        notes: "Skipped mood entry",
+        influences: [],
+        activities: [],
+        timestamp: new Date().toISOString(),
+      };
 
-    this.showNotification("Mood entry skipped for today", "info");
-    this.resetForm();
+      const { error } = await supabase
+        .from('mood_entries')
+        .insert([skipEntry]);
+
+      if (error) {
+        console.error('Error skipping mood:', error);
+        this.showNotification('Failed to skip mood', 'error');
+      } else {
+        this.moodHistory.push(skipEntry);
+        this.renderMoodHistory();
+        this.updateStatistics();
+        this.showNotification("Mood entry skipped for today", "info");
+        this.resetForm();
+      }
+    } catch (error) {
+      console.error('Error skipping mood:', error);
+      this.showNotification('Failed to skip mood', 'error');
+    }
   }
 
   resetForm() {
@@ -282,11 +343,22 @@ class DailyMoodManager {
     }
   }
 
-  loadMoodData() {
+  async loadMoodData() {
     try {
-      const savedData = localStorage.getItem("moodspace_mood_history");
-      if (savedData) {
-        this.moodHistory = JSON.parse(savedData);
+      const userResult = await auth.getCurrentUser();
+      if (userResult.success && userResult.user) {
+        const { data, error } = await supabase
+          .from('mood_entries')
+          .select('*')
+          .eq('user_id', userResult.user.id)
+          .order('date', { ascending: false });
+
+        if (error) {
+          console.error('Error loading mood data:', error);
+          this.generateSampleData();
+        } else {
+          this.moodHistory = data || [];
+        }
       } else {
         // Generate sample data for demonstration
         this.generateSampleData();
@@ -298,14 +370,9 @@ class DailyMoodManager {
   }
 
   saveMoodData() {
-    try {
-      localStorage.setItem(
-        "moodspace_mood_history",
-        JSON.stringify(this.moodHistory),
-      );
-    } catch (error) {
-      console.error("Error saving mood data:", error);
-    }
+    // This function is no longer needed as data is saved directly to Supabase
+    // Keeping for backward compatibility
+    console.log('Mood data is now saved directly to Supabase');
   }
 
   generateSampleData() {

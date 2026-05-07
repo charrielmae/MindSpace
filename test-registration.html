@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Registration</title>
+</head>
+<body>
+    <h1>Test Registration</h1>
+    <button onclick="testSupabaseConnection()">Test Supabase Connection</button>
+    <button onclick="testRegistration()">Test Registration</button>
+    <div id="output"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase
+        const { createClient } = supabase
+        const _supabase = createClient('https://wknutsngiknvzvajslgo.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndrbnV0c25naWtudnp2YWpzbGdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxNTYyMjUsImV4cCI6MjA5MzczMjIyNX0.vi1FFJ7q-Fv0-mslyd6JD5FgDZtoR7T45wmvl37kJ30')
+
+        function log(message) {
+            document.getElementById('output').innerHTML += '<div>' + message + '</div>';
+        }
+
+        async function testSupabaseConnection() {
+            log('Testing Supabase connection...');
+            try {
+                const { data, error } = await _supabase.from('_test_connection').select('*').limit(1);
+                if (error) {
+                    log('Connection test error (expected if no _test_connection table): ' + error.message);
+                } else {
+                    log('Connection successful: ' + JSON.stringify(data));
+                }
+            } catch (e) {
+                log('Connection test exception: ' + e.message);
+            }
+        }
+
+        async function testRegistration() {
+            log('Testing registration with test@example.com...');
+            try {
+                const { data, error } = await _supabase.auth.signUp({
+                    email: 'test@example.com',
+                    password: 'test123456',
+                    options: {
+                        data: {
+                            full_name: 'Test User',
+                            name: 'Test User'
+                        },
+                        email_confirm: false // Disable email confirmation for auto-confirmation
+                    }
+                });
+                
+                if (error) {
+                    log('Registration error: ' + error.message);
+                } else {
+                    log('Registration successful: ' + JSON.stringify(data));
+                }
+            } catch (e) {
+                log('Registration exception: ' + e.message);
+            }
+        }
+    </script>
+</body>
+</html>
