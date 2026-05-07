@@ -125,6 +125,17 @@
                     <span class="nav-text">Crisis Hotline</span>
                   </a>
                 </li>
+                <li class="nav-item logout-item">
+                  <a href="#" class="nav-link logout-btn" onclick="handleLogout()">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/logout.png"
+                        alt="Logout"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Logout</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </nav>
@@ -284,11 +295,6 @@
             </div>
 
             <div class="activities-pagination" id="activitiesPagination">
-              <div class="pagination-info">
-                <span id="activitiesPaginationInfo"
-                  >Showing 1-4 of 0 activities</span
-                >
-              </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="activitiesPrevBtn" disabled>
                   Previous
@@ -297,6 +303,11 @@
                 <button class="pagination-btn" id="activitiesNextBtn" disabled>
                   Next
                 </button>
+              </div>
+              <div class="pagination-info">
+                <span id="activitiesPaginationInfo"
+                  >Showing 1-4 of 0 activities</span
+                >
               </div>
             </div>
           </section>

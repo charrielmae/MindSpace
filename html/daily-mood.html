@@ -125,6 +125,17 @@
                     <span class="nav-text">Crisis Hotline</span>
                   </a>
                 </li>
+                <li class="nav-item logout-item">
+                  <a href="#" class="nav-link logout-btn" onclick="handleLogout()">
+                    <span class="nav-icon"
+                      ><img
+                        src="../images/logout.png"
+                        alt="Logout"
+                        class="nav-icon-img"
+                    /></span>
+                    <span class="nav-text">Logout</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </nav>
@@ -295,9 +306,6 @@
             </div>
 
             <div class="mood-log-pagination" id="moodLogPagination">
-              <div class="pagination-info">
-                <span id="paginationInfo">Showing 1-2 of 0 entries</span>
-              </div>
               <div class="pagination-controls">
                 <button class="pagination-btn" id="prevPageBtn" disabled>
                   Previous
@@ -306,6 +314,9 @@
                 <button class="pagination-btn" id="nextPageBtn" disabled>
                   Next
                 </button>
+              </div>
+              <div class="pagination-info">
+                <span id="paginationInfo">Showing 1-2 of 0 entries</span>
               </div>
             </div>
           </section>

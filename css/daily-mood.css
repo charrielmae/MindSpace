@@ -55,6 +55,22 @@ body {
   gap: 15px;
 }
 
+/* Logout Button Styling */
+.logout-item .nav-link {
+  color: #4A5568 !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-item .nav-link:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #000000 !important;
+}
+
+.logout-item .nav-link:active {
+  transform: scale(0.95);
+}
+
 .user-avatar {
   position: relative;
   width: 45px;
@@ -694,9 +710,8 @@ section h2 {
 
 /* Pagination Styles */
 .mood-log-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
+  text-align: center;
   margin-top: 20px;
   padding: 15px;
   background: rgba(255, 255, 255, 0.5);
@@ -708,12 +723,14 @@ section h2 {
   color: #718096;
   font-size: 0.9rem;
   font-weight: 500;
+  margin-top: 15px;
 }
 
 .pagination-controls {
   display: flex;
   align-items: center;
   gap: 15px;
+  justify-content: center;
 }
 
 .pagination-btn {

@@ -705,3 +705,195 @@ body {
   outline: 2px solid #ff6b9d;
   outline-offset: 2px;
 }
+
+/* AI Insight Modal Styles */
+.floating-ai-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 15px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.floating-ai-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 107, 157, 0.4);
+}
+
+.floating-ai-button i {
+  font-size: 1.2rem;
+}
+
+/* Logout Button Styling */
+.logout-item .nav-link {
+  color: #4A5568 !important;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logout-item .nav-link:hover {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: #000000 !important;
+}
+
+.logout-item .nav-link:active {
+  transform: scale(0.95);
+}
+
+.ai-insight-modal {
+  display: none;
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.ai-insight-modal-content {
+  background: #ffffff;
+  margin: 10% auto;
+  padding: 0;
+  border-radius: 15px;
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 500px;
+  animation: fadeIn 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-insight-header {
+  background: #ffffff;
+  padding: 25px 30px 20px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+}
+
+.ai-sparkle-icon {
+  color: #6c757d;
+  font-size: 1.8rem;
+  animation: sparkle 2s infinite;
+}
+
+.ai-insight-header h2 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.close-button {
+  color: rgba(45, 55, 72, 0.7);
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #ff6b9d;
+}
+
+.ai-insight-body {
+  padding: 25px 30px;
+}
+
+.ai-insight-body p {
+  color: #2d3748;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.analyze-health-button {
+  background: linear-gradient(135deg, #ff6b9d, #ff8fa3);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 20px 30px 25px;
+  width: calc(100% - 60px);
+  transition: all 0.3s ease;
+}
+
+.analyze-health-button:hover {
+  background: pink;
+  transform: translateY(-2px);
+}
+
+.analyze-health-button:disabled {
+  background: linear-gradient(135deg, #cf816b, #f19677);
+  cursor: not-allowed;
+  transform: none;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Loading state for AI recommendation */
+.ai-insight-body p.loading {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Bullet points styling in AI recommendations */
+.ai-insight-body ul {
+  margin: 15px 0;
+  padding-left: 20px;
+}
+
+.ai-insight-body li {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.ai-insight-body li::marker {
+  color: #ffd700;
+}

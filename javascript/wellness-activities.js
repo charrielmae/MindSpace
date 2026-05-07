@@ -36,6 +36,12 @@ class WellnessActivitiesManager {
       link.addEventListener("click", (e) => this.handleNavigation(e));
     });
 
+    // Logout functionality
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => this.handleLogout());
+    }
+
     // Category selection
     const categoryCards = document.querySelectorAll(".category-card");
     categoryCards.forEach((card) => {
@@ -102,6 +108,13 @@ class WellnessActivitiesManager {
     }
 
     window.location.href = href;
+  }
+
+  handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('mindspace_user');
+      window.location.href = 'landing.html';
+    }
   }
 
   handleCategorySelection(event) {
