@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
   </head>
   <body>
@@ -310,6 +311,26 @@
           </div>
         </div>
       </main>
+    </div>
+
+    <!-- AI Insight Button -->
+    <button id="openAiInsightModal" class="floating-ai-button">
+      <img src="../images/robot.png" alt="AI" style="width: 25px; height: 25px; margin-right: 8px;"> Get AI Insight
+    </button>
+
+    <!-- AI Insight Modal -->
+    <div id="aiInsightModal" class="ai-insight-modal">
+      <div class="ai-insight-modal-content">
+        <span class="close-button">&times;</span>
+        <div class="ai-insight-header">
+          <i class="fas fa-sparkles ai-sparkle-icon"></i>
+          <h2>AI Insight.</h2>
+        </div>
+        <div class="ai-insight-body">
+          <p id="aiInsightRecommendation">Loading AI recommendation...</p>
+        </div>
+        <button id="analyzeHealthButton" class="analyze-health-button">Analyze Health</button>
+      </div>
     </div>
 
     <script src="../javascript/dashboard.js" defer></script>
