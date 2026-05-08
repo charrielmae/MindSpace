@@ -1,6 +1,32 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/html/login.html"
+    },
+    {
+      "source": "/registration",
+      "destination": "/html/registration.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/html/dashboard.html"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/css/$1"
+    },
+    {
+      "source": "/javascript/(.*)",
+      "destination": "/javascript/$1"
+    },
+    {
+      "source": "/images/(.*)",
+      "destination": "/images/$1"
+    }
+  ]
 }
-
-
-
