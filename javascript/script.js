@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       console.log("Log in button clicked");
       // Navigate to login page
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     });
   }
 

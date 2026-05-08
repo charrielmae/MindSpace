@@ -16,9 +16,16 @@ class AuthManager {
         console.log('Auth system initialized successfully');
         if (initResult.user) {
           console.log('User already logged in:', initResult.user.email);
-          // User is already logged in, redirect to dashboard
-          window.location.href = 'dashboard.html';
-          return;
+          
+          // Only redirect to dashboard if not on login/registration pages
+          const currentPage = window.location.pathname;
+          const isAuthPage = currentPage.includes('login.html') || currentPage.includes('registration.html');
+          
+          if (!isAuthPage) {
+            console.log('Redirecting to dashboard (not on auth page)');
+            window.location.href = 'dashboard.html';
+            return;
+          }
         }
       } else {
         console.error('Auth initialization failed:', initResult.error);
@@ -209,8 +216,14 @@ class AuthManager {
     const result = await auth.getCurrentUser();
     
     if (result.success && result.user) {
-      // User is logged in, redirect to dashboard
-      window.location.href = 'dashboard.html';
+      // Only redirect to dashboard if not on login/registration pages
+      const currentPage = window.location.pathname;
+      const isAuthPage = currentPage.includes('login.html') || currentPage.includes('registration.html');
+      
+      if (!isAuthPage) {
+        console.log('User logged in, redirecting to dashboard');
+        window.location.href = 'dashboard.html';
+      }
     }
   }
 

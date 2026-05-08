@@ -54,7 +54,7 @@ Before using the registration and authentication features, you need to set up Su
 1. **Local Development**
    - Use a local server like Live Server in VS Code
    - Open `html/registration.html` to test registration
-   - Open `html/index.html` for the main landing page
+   - Open `html/login.html` for the login page
 
 2. **Testing Registration**
    - Fill out the registration form
