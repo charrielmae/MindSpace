@@ -191,12 +191,10 @@ class AuthManager {
             window.location.href = 'dashboard.html';
           }, 1500);
         } else {
-          // Manual login required
-          this.showNotification('Account created successfully! You can now log in.', 'success');
-          // Clear form
-          document.getElementById('registerForm').reset();
+          // Manual login required - redirect to login page
+          this.showNotification('Account created successfully! Redirecting to login...', 'success');
           setTimeout(() => {
-            this.showModal('loginModal');
+            window.location.href = 'login.html';
           }, 2000);
         }
       } else {
