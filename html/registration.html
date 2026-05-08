@@ -21,8 +21,14 @@
             <p>Join our community and start your wellness journey</p>
           </div>
           
-          <form class="auth-form" action="">
-            
+          <form class="auth-form" id="registrationForm">
+            <div class="input-group">
+              <label for="name">Full Name</label>
+              <div class="input-wrapper">
+                <span class="input-icon"><i class="fa fa-user"></i></span>
+                <input type="text" id="name" placeholder="Enter your full name" required>
+              </div>
+            </div>
             
             <div class="input-group">
               <label for="email">Email</label>
@@ -66,22 +72,158 @@
     </main>
   </div>
 
-  <script>
-      function togglePassword(fieldId) {
-          const passwordField = document.getElementById(fieldId);
-          const eyeIcon = document.getElementById(fieldId + '-eye');
-          
-          if (passwordField.type === 'password') {
-              passwordField.type = 'text';
-              eyeIcon.classList.remove('fa-eye');
-              eyeIcon.classList.add('fa-eye-slash');
-          } else {
-              passwordField.type = 'password';
-              eyeIcon.classList.remove('fa-eye-slash');
-              eyeIcon.classList.add('fa-eye');
-          }
-      }
-  </script>
+  <!-- Supabase CDN for module resolution -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="module">
+        import { auth } from '../javascript/supabase-config.js';
+
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const eyeIcon = document.getElementById(fieldId + '-eye');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        async function handleRegistration(event) {
+            event.preventDefault();
+            
+            // Get form elements with null checks
+            const nameField = document.getElementById('name');
+            const emailField = document.getElementById('email');
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+            const submitBtn = document.querySelector('.auth-btn');
+            
+            // Validate all elements exist and debug which ones are missing
+            console.log('Checking for form elements...');
+            console.log('nameField:', nameField);
+            console.log('emailField:', emailField);
+            console.log('passwordField:', passwordField);
+            console.log('confirmPasswordField:', confirmPasswordField);
+            console.log('submitBtn:', submitBtn);
+            
+            if (!nameField || !emailField || !passwordField || !confirmPasswordField || !submitBtn) {
+                console.error('Required form elements not found');
+                console.error('Missing elements:', {
+                    nameField: !nameField,
+                    emailField: !emailField,
+                    passwordField: !passwordField,
+                    confirmPasswordField: !confirmPasswordField,
+                    submitBtn: !submitBtn
+                });
+                alert('Form initialization error. Please refresh the page.');
+                return;
+            }
+            
+            // Get form values
+            const name = nameField.value;
+            const email = emailField.value;
+            const password = passwordField.value;
+            const confirmPassword = confirmPasswordField.value;
+            
+            // Basic validation
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters');
+                return;
+            }
+
+            // Show loading state
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Creating account...';
+            submitBtn.disabled = true;
+
+            try {
+                const result = await auth.signUp(email, password, name);
+                
+                if (result.success) {
+                    alert('Account created successfully! Please check your email to confirm your account.');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(result.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Set up form listener with enhanced DOM ready check
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up registration form...');
+            
+            // Enhanced DOM loading detection with retry mechanism
+            let retryCount = 0;
+            const maxRetries = 10;
+            
+            function setupForm() {
+                const registrationForm = document.getElementById('registrationForm');
+                const nameField = document.getElementById('name');
+                const emailField = document.getElementById('email');
+                const passwordField = document.getElementById('password');
+                const confirmPasswordField = document.getElementById('confirm-password');
+                const submitBtn = document.querySelector('.auth-btn');
+                
+                console.log('Form elements check:', {
+                    registrationForm: !!registrationForm,
+                    nameField: !!nameField,
+                    emailField: !!emailField,
+                    passwordField: !!passwordField,
+                    confirmPasswordField: !!confirmPasswordField,
+                    submitBtn: !!submitBtn
+                });
+                
+                if (registrationForm && nameField && emailField && passwordField && confirmPasswordField && submitBtn) {
+                    console.log('All form elements found, attaching submit listener');
+                    registrationForm.addEventListener('submit', handleRegistration);
+                    return true;
+                }
+                return false;
+            }
+            
+            // Retry mechanism with increasing delays
+            function attemptSetup() {
+                if (setupForm()) {
+                    console.log('Registration form setup successful');
+                    return;
+                }
+                
+                retryCount++;
+                if (retryCount >= maxRetries) {
+                    console.error('Failed to setup registration form after', maxRetries, 'attempts');
+                    alert('Form setup failed. Please refresh the page.');
+                    return;
+                }
+                
+                const delay = Math.min(100 * retryCount, 1000);
+                console.log(`Retry ${retryCount}/${maxRetries} in ${delay}ms`);
+                setTimeout(attemptSetup, delay);
+            }
+            
+            // Start the retry process
+            attemptSetup();
+        });
+    </script>
 
 </body>
 </html>

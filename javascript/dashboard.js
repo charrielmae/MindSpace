@@ -1,4 +1,5 @@
 // Dashboard JavaScript - MindSpace
+import { auth, supabase } from './supabase-config.js';
 
 class DashboardManager {
   constructor() {
@@ -48,34 +49,51 @@ class DashboardManager {
     }
   }
 
-  handleLogout() {
+  async handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
-      // Clear user data
-      localStorage.removeItem('mindspace_user');
-      
-      // Redirect to landing page
+      // Sign out from Supabase
+      const result = await auth.signOut();
+      if (result.success) {
+        // Redirect to landing page
+        window.location.href = 'landing.html';
+      } else {
+        this.showNotification('Logout failed. Please try again.', 'error');
+      }
+    }
+  }
+
+  async loadUserData() {
+    try {
+      const result = await auth.getCurrentUser();
+      if (result.success && result.user) {
+        // Get user metadata from Supabase
+        const userMetadata = result.user.user_metadata || {};
+        this.currentUser = {
+          id: result.user.id,
+          name: userMetadata.full_name || userMetadata.name || 'User',
+          email: result.user.email,
+          initials: this.getInitials(userMetadata.full_name || userMetadata.name || 'User'),
+          status: "Active",
+          avatar: null,
+        };
+        this.updateUserInterface();
+      } else {
+        // Redirect to login if no user found
+        window.location.href = 'landing.html';
+      }
+    } catch (error) {
+      console.error("Error loading user data:", error);
+      // Redirect to login on error
       window.location.href = 'landing.html';
     }
   }
 
-  loadUserData() {
-    try {
-      const userData = localStorage.getItem("mindspace_user");
-      if (userData) {
-        this.currentUser = JSON.parse(userData);
-        this.updateUserInterface();
-      } else {
-        // Set default user data
-        this.currentUser = {
-          name: "John Doe",
-          initials: "JD",
-          status: "Active",
-          avatar: null,
-        };
-      }
-    } catch (error) {
-      console.error("Error loading user data:", error);
-    }
+  getInitials(name) {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase())
+      .join('')
+      .slice(0, 2);
   }
 
   updateUserInterface() {
@@ -149,29 +167,29 @@ class DashboardManager {
     this.showMoodFeedback(mood);
   }
 
-  saveMoodEntry(mood) {
+  async saveMoodEntry(mood) {
     try {
       const moodEntry = {
+        user_id: this.currentUser.id,
         mood: mood,
         timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString(),
       };
 
-      // Get existing mood entries
-      let moodEntries = JSON.parse(
-        localStorage.getItem("moodspace_moods") || "[]",
-      );
-      moodEntries.push(moodEntry);
+      // Save to Supabase
+      const { data, error } = await supabase
+        .from('mood_entries')
+        .insert([moodEntry]);
 
-      // Keep only last 30 entries
-      if (moodEntries.length > 30) {
-        moodEntries = moodEntries.slice(-30);
+      if (error) {
+        console.error('Error saving mood entry:', error);
+        this.showNotification('Failed to save mood entry', 'error');
+      } else {
+        console.log('Mood entry saved:', moodEntry);
       }
-
-      localStorage.setItem("moodspace_moods", JSON.stringify(moodEntries));
-      console.log("Mood entry saved:", moodEntry);
     } catch (error) {
-      console.error("Error saving mood entry:", error);
+      console.error('Error saving mood entry:', error);
+      this.showNotification('Failed to save mood entry', 'error');
     }
   }
 
@@ -456,10 +474,13 @@ class DashboardManager {
     this.showNotification("Dashboard refreshed", "success");
   }
 
-  logout() {
-    localStorage.removeItem("moodspace_user");
-    localStorage.removeItem("moodspace_moods");
-    window.location.href = "landing.html";
+  async logout() {
+    const result = await auth.signOut();
+    if (result.success) {
+      window.location.href = "landing.html";
+    } else {
+      this.showNotification('Logout failed. Please try again.', 'error');
+    }
   }
 
   initializeAIModal() {
@@ -561,11 +582,23 @@ class DashboardManager {
     }
   }
 
-  getRecentMoodData() {
+  async getRecentMoodData() {
     try {
-      const moods = JSON.parse(localStorage.getItem('moodspace_moods') || '[]');
-      return moods.slice(-7);
-    } catch {
+      const { data, error } = await supabase
+        .from('mood_entries')
+        .select('*')
+        .eq('user_id', this.currentUser.id)
+        .order('timestamp', { ascending: false })
+        .limit(7);
+
+      if (error) {
+        console.error('Error fetching mood data:', error);
+        return [];
+      }
+
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching mood data:', error);
       return [];
     }
   }

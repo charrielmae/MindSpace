@@ -412,3 +412,46 @@ body {
     font-size: 1rem;
   }
 }
+
+/* Notification Styles */
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 1000;
+  max-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification-success {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  border-left: 4px solid #2f855a;
+}
+
+.notification-error {
+  background: linear-gradient(135deg, #f56565, #e53e3e);
+  color: white;
+  border-left: 4px solid #c53030;
+}
+
+.notification-info {
+  background: linear-gradient(135deg, #4299e1, #3182ce);
+  color: white;
+  border-left: 4px solid #2b6cb0;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

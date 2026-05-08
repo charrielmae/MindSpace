@@ -22,12 +22,12 @@
               <p>Sign in to continue your wellness journey</p>
             </div>
             
-            <form class="auth-form" action="">
+            <form class="auth-form" id="loginForm">
               <div class="input-group">
                 <label for="email">Email</label>
                 <div class="input-wrapper">
                   <span class="input-icon"><i class="fa fa-envelope"></i></span>
-                  <input type="email" id="email" placeholder="example@gmail.com" required>
+                  <input type="email" id="loginEmail" placeholder="example@gmail.com" required>
                 </div>
               </div>
               
@@ -35,7 +35,7 @@
                 <label for="password">Password</label>
                 <div class="input-wrapper">
                   <span class="input-icon"><i class="fa fa-lock"></i></span>
-                  <input type="password" id="password" placeholder="••••••••" required>
+                  <input type="password" id="loginPassword" placeholder="••••••••" required>
                   <button type="button" class="password-toggle" onclick="togglePassword('password')">
                     <i class="fa fa-eye" id="password-eye"></i>
                   </button>
@@ -51,7 +51,7 @@
                 <a href="#" class="forgot-link">Forgot Password?</a>
               </div>
               
-              <button type="submit" class="btn btn-gradient auth-btn">Sign In</button>
+              <button type="submit" class="btn btn-gradient auth-btn" id="loginSubmit">Sign In</button>
               
               <div class="auth-footer">
                 <p>Don't have an account? <a href="registration.html" class="auth-link">Register</a></p>
@@ -61,8 +61,12 @@
         </div>
       </main>
     </div>
-        
-    <script>
+
+    <!-- Supabase CDN for module resolution -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module">
+        import AuthManager from '../javascript/auth.js';
+
         function togglePassword(fieldId) {
             const passwordField = document.getElementById(fieldId);
             const eyeIcon = document.getElementById(fieldId + '-eye');
@@ -77,6 +81,11 @@
                 eyeIcon.classList.add('fa-eye');
             }
         }
+
+        // Initialize auth manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new AuthManager();
+        });
     </script>
         
 </body>
