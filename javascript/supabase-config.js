@@ -45,7 +45,8 @@ export const auth = {
                 options: {
                     data: {
                         full_name: name
-                    }
+                    },
+                    email_confirm: false
                 }
             });
 
