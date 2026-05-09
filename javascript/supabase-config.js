@@ -54,7 +54,7 @@ export const auth = {
                 console.error('Signup error:', error);
                 return {
                     success: false,
-                    error: error.message
+                    error: error.message || 'Registration failed'
                 };
             }
 
@@ -97,7 +97,7 @@ export const auth = {
                 console.error('Signin error:', error);
                 return {
                     success: false,
-                    error: error.message
+                    error: error.message || 'Login failed'
                 };
             }
 
@@ -123,7 +123,7 @@ export const auth = {
                 console.error('Signout error:', error);
                 return {
                     success: false,
-                    error: error.message
+                    error: error.message || 'Sign out failed'
                 };
             }
 
@@ -148,7 +148,7 @@ export const auth = {
                 console.error('Get user error:', error);
                 return {
                     success: false,
-                    error: error.message
+                    error: error.message || 'Failed to get current user'
                 };
             }
 
