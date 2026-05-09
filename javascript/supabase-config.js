@@ -45,8 +45,7 @@ export const auth = {
                 options: {
                     data: {
                         full_name: name
-                    },
-                    emailRedirectTo: undefined // Disable email confirmation
+                    }
                 }
             });
 
@@ -56,19 +55,6 @@ export const auth = {
                     success: false,
                     error: error.message || 'Registration failed'
                 };
-            }
-
-            // Auto-login after successful signup
-            if (data.user && !data.session) {
-                // If user created but no session (email confirmation disabled), try to sign in
-                const signInResult = await this.signIn(email, password);
-                if (signInResult.success) {
-                    return {
-                        success: true,
-                        data: signInResult.data,
-                        autoLogin: true
-                    };
-                }
             }
 
             return {
